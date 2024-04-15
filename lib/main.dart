@@ -3,16 +3,16 @@ import 'package:pocofino/config/router/router.dart';
 import 'package:pocofino/config/strings/color.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final AppRouter appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    final AppRouter appRouter = AppRouter();
-
     return MaterialApp.router(
       routerConfig: appRouter.config(),
       theme: ThemeData(

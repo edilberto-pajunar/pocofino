@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:pocofino/config/router/router.gr.dart';
 import 'package:pocofino/config/strings/color.dart';
 
 @RoutePage()
@@ -66,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Column(
@@ -77,18 +78,22 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100.0),
-                            child: Image.network(
-                              "https://i.pinimg.com/564x/68/cc/2e/68cc2e285303d7ec54487587ea5bd12e.jpg",
-                              height: 85,
-                              width: 85,
+                      InkWell(
+                        onTap: () => context.pushRoute(const MenuRoute()),
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100.0),
+                              child: Image.network(
+                                "https://i.pinimg.com/564x/68/cc/2e/68cc2e285303d7ec54487587ea5bd12e.jpg",
+                                height: 85,
+                                width: 85,
+                              ),
                             ),
-                          ),
-                          const Text("Hot Drinks"),
-                        ],
+                            const SizedBox(height: 10.0),
+                            const Text("Hot Drinks"),
+                          ],
+                        ),
                       ),
                       Column(
                         children: [
@@ -100,6 +105,7 @@ class HomeScreen extends StatelessWidget {
                               width: 85,
                             ),
                           ),
+                          const SizedBox(height: 10.0),
                           const Text("Cold Drinks"),
                         ],
                       ),
@@ -113,6 +119,7 @@ class HomeScreen extends StatelessWidget {
                               width: 85,
                             ),
                           ),
+                          const SizedBox(height: 10.0),
                           const Text("Savories"),
                         ],
                       ),
