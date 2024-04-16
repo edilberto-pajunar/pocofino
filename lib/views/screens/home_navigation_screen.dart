@@ -20,7 +20,7 @@ class HomeNavigationScreen extends StatelessWidget {
     return AutoTabsScaffold(
       routes: const [
         HomeRoute(),
-        ActivityRoute(),
+        ActivityNavigationRoute(),
         WalletRoute(),
         CartRoute(),
         AccountRoute(),

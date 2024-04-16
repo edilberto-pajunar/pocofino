@@ -10,7 +10,10 @@ class AppRouter extends $AppRouter {
           page: HomeNavigationRoute.page,
           children: [
             AutoRoute(page: HomeRoute.page),
-            AutoRoute(page: ActivityRoute.page),
+            AutoRoute(page: ActivityNavigationRoute.page, children: [
+              AutoRoute(page: ActivityOngoingRoute.page),
+              AutoRoute(page: ActivityCompletedRoute.page),
+            ]),
             AutoRoute(page: WalletRoute.page),
             AutoRoute(page: CartRoute.page),
             AutoRoute(page: AccountRoute.page),
