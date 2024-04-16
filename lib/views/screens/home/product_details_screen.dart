@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pocofino/config/strings/color.dart';
+import 'package:pocofino/views/widgets/buttons/primary_button.dart';
 
 @RoutePage()
 class ProductDetailsScreen extends StatelessWidget {
@@ -13,18 +14,9 @@ class ProductDetailsScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       bottomNavigationBar: BottomAppBar(
-        child: ElevatedButton(
+        child: PrimaryButton(
+          label: "Add to Cart | ₱ 490",
           onPressed: () => context.maybePop(),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ColorTheme.primaryColor,
-          ),
-          child: Text(
-            "Add to Cart | ₱ 490",
-            style: theme.textTheme.bodyMedium!.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         ),
       ),
       body: Column(

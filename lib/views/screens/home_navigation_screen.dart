@@ -8,7 +8,7 @@ class HomeNavigationScreen extends StatelessWidget {
   const HomeNavigationScreen({super.key});
 
   static final _items = [
-    const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+    const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
     const BottomNavigationBarItem(icon: Icon(Icons.track_changes_rounded), label: "Activity"),
     const BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: "Wallet"),
     const BottomNavigationBarItem(icon: Icon(Icons.local_grocery_store_outlined), label: "Cart"),
