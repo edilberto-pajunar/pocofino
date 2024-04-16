@@ -31,6 +31,11 @@ class MyApp extends StatelessWidget {
         //   onPrimaryContainer: ColorTheme.blackColor,
         // ),
         textTheme: TextTheme(
+          titleLarge: TextStyle(
+            color: ColorTheme.blackColor,
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
+          ),
           bodyMedium: TextStyle(
             color: ColorTheme.blackColor,
             fontSize: 14.0,

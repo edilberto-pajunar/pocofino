@@ -9,6 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -73,7 +75,10 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Explore our Menu"),
+                  Text(
+                    "Explore our Menu",
+                    style: theme.textTheme.titleLarge,
+                  ),
                   const SizedBox(height: 22.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,6 +129,11 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 40.0),
+                  Text(
+                    "Popular",
+                    style: theme.textTheme.titleLarge,
                   ),
                 ],
               ),
