@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "817457827611",
+    "project_id": "pocofino-38ae0",
+    "storage_bucket": "pocofino-38ae0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817457827611:android:d66895baf7fc0f0a590dbe",
+        "android_client_info": {
+          "package_name": "com.example.pocofino"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSYSU2j9scQFCNpJR8OFsBKT6f-mLiEvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
