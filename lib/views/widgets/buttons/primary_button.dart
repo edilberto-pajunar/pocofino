@@ -5,11 +5,13 @@ class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     required this.onPressed,
     required this.label,
+    this.basic = false,
     super.key,
   });
 
   final Function() onPressed;
   final String label;
+  final bool basic;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +20,18 @@ class PrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: ColorTheme.primaryColor,
+        backgroundColor: basic ? null : ColorTheme.primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+          side: BorderSide(
+            color: ColorTheme.primaryColor,
+          ),
+        ),
       ),
       child: Text(
         label,
         style: theme.textTheme.bodyMedium!.copyWith(
-          color: Colors.white,
+          color: basic ? ColorTheme.primaryColor : Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
