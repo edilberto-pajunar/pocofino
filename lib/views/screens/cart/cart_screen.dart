@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pocofino/config/router/router.gr.dart';
 import 'package:pocofino/config/strings/color.dart';
 import 'package:pocofino/views/widgets/buttons/primary_button.dart';
-import 'package:pocofino/views/widgets/order/order_tile.dart';
+import 'package:pocofino/views/widgets/tiles/order_tile.dart';
 
 @RoutePage()
 class CartScreen extends StatelessWidget {

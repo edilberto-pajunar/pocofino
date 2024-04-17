@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pocofino/config/router/router.gr.dart';
 import 'package:pocofino/config/strings/color.dart';
+import 'package:pocofino/models/coffee.dart';
+import 'package:pocofino/views/widgets/tiles/product_tile.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -10,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final List<Coffee> coffeeList = Coffee.coffeeList;
 
     return Scaffold(
       body: SafeArea(
@@ -83,50 +86,20 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
+                      ProductTile(
                         onTap: () => context.pushRoute(const MenuRoute()),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100.0),
-                              child: Image.network(
-                                "https://i.pinimg.com/564x/68/cc/2e/68cc2e285303d7ec54487587ea5bd12e.jpg",
-                                height: 85,
-                                width: 85,
-                              ),
-                            ),
-                            const SizedBox(height: 10.0),
-                            const Text("Hot Drinks"),
-                          ],
-                        ),
+                        image: coffeeList[0].image,
+                        category: "Hot Drinks",
                       ),
-                      Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100.0),
-                            child: Image.network(
-                              "https://i.pinimg.com/564x/30/33/65/303365082f0e1a9c377050e73d9f245a.jpg",
-                              height: 85,
-                              width: 85,
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
-                          const Text("Cold Drinks"),
-                        ],
+                      ProductTile(
+                        onTap: () {},
+                        image: coffeeList[1].image,
+                        category: "Cold Drinks",
                       ),
-                      Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100.0),
-                            child: Image.network(
-                              "https://i.pinimg.com/564x/43/c7/ce/43c7ce8223c47b0757fc6b240d582769.jpg",
-                              height: 85,
-                              width: 85,
-                            ),
-                          ),
-                          const SizedBox(height: 10.0),
-                          const Text("Savories"),
-                        ],
+                      ProductTile(
+                        onTap: () {},
+                        image: coffeeList[2].image,
+                        category: "Hot Drinks",
                       ),
                     ],
                   ),
