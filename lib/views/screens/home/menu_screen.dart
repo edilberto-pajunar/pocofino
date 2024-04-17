@@ -1,36 +1,38 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:pocofino/config/router/router.gr.dart';
+import 'package:pocofino/config/strings/color.dart';
+import 'package:pocofino/models/product.dart';
+import 'package:pocofino/views/widgets/tiles/product_tile.dart';
 
 @RoutePage()
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({super.key});
+  const MenuScreen({
+    super.key,
+    required this.product,
+  });
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("HOT DRINKS"),
+        title: Text(
+          "HOT DRINKS",
+          style: theme.textTheme.titleLarge!.copyWith(
+            color: ColorTheme.primaryColor,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
-          child: InkWell(
-            onTap: () => context.pushRoute(const ProductDetailsRoute()),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.network(
-                  "https://i.pinimg.com/564x/55/a8/31/55a8313ea7a728f6896a515aff8292dd.jpg",
-                  height: 165,
-                  width: 165,
-                ),
-                const SizedBox(height: 10.0),
-                const Text("Cappuccino"),
-                const SizedBox(height: 10.0),
-                const Text("₱ 170"),
-              ],
-            ),
+          child: ProductTile(
+            onTap: () {},
+            product: product,
           ),
         ),
       ),

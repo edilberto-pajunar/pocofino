@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pocofino/config/router/router.gr.dart';
 import 'package:pocofino/config/strings/color.dart';
-import 'package:pocofino/models/coffee.dart';
-import 'package:pocofino/views/widgets/tiles/product_tile.dart';
+import 'package:pocofino/models/product.dart';
+import 'package:pocofino/views/widgets/tiles/product_category_tile.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final List<Coffee> coffeeList = Coffee.coffeeList;
+    final List<Product> productList = Product.productList;
 
     return Scaffold(
       body: SafeArea(
@@ -86,20 +86,20 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ProductTile(
-                        onTap: () => context.pushRoute(const MenuRoute()),
-                        image: coffeeList[0].image,
+                      ProductCategoryTile(
+                        onTap: () => context.pushRoute(MenuRoute(product: productList[0])),
+                        image: productList[0].image,
                         category: "Hot Drinks",
                       ),
-                      ProductTile(
+                      ProductCategoryTile(
                         onTap: () {},
-                        image: coffeeList[1].image,
+                        image: productList[1].image,
                         category: "Cold Drinks",
                       ),
-                      ProductTile(
+                      ProductCategoryTile(
                         onTap: () {},
-                        image: coffeeList[2].image,
-                        category: "Hot Drinks",
+                        image: productList[2].image,
+                        category: "Savories",
                       ),
                     ],
                   ),

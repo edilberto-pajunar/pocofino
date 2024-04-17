@@ -9,6 +9,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i16;
+import 'package:flutter/material.dart' as _i17;
+import 'package:pocofino/models/product.dart' as _i18;
 import 'package:pocofino/views/screens/account/account_screen.dart' as _i1;
 import 'package:pocofino/views/screens/activity/activity_navigation_screen.dart'
     as _i3;
@@ -87,9 +89,13 @@ abstract class $AppRouter extends _i16.RootStackRouter {
       );
     },
     MenuRoute.name: (routeData) {
+      final args = routeData.argsAs<MenuRouteArgs>();
       return _i16.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i10.MenuScreen(),
+        child: _i10.MenuScreen(
+          key: args.key,
+          product: args.product,
+        ),
       );
     },
     OnboardingRoute.name: (routeData) {
@@ -253,16 +259,40 @@ class LoginRoute extends _i16.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.MenuScreen]
-class MenuRoute extends _i16.PageRouteInfo<void> {
-  const MenuRoute({List<_i16.PageRouteInfo>? children})
-      : super(
+class MenuRoute extends _i16.PageRouteInfo<MenuRouteArgs> {
+  MenuRoute({
+    _i17.Key? key,
+    required _i18.Product product,
+    List<_i16.PageRouteInfo>? children,
+  }) : super(
           MenuRoute.name,
+          args: MenuRouteArgs(
+            key: key,
+            product: product,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'MenuRoute';
 
-  static const _i16.PageInfo<void> page = _i16.PageInfo<void>(name);
+  static const _i16.PageInfo<MenuRouteArgs> page =
+      _i16.PageInfo<MenuRouteArgs>(name);
+}
+
+class MenuRouteArgs {
+  const MenuRouteArgs({
+    this.key,
+    required this.product,
+  });
+
+  final _i17.Key? key;
+
+  final _i18.Product product;
+
+  @override
+  String toString() {
+    return 'MenuRouteArgs{key: $key, product: $product}';
+  }
 }
 
 /// generated route for
