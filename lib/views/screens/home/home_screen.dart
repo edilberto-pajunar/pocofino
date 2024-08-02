@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:pocofino/config/router/router.gr.dart';
-import 'package:pocofino/config/strings/color.dart';
+import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/models/product.dart';
-import 'package:pocofino/views/widgets/tiles/product_category_tile.dart';
+import 'package:pocofino/widgets/tiles/product_category_tile.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
@@ -28,7 +27,8 @@ class HomeScreen extends StatelessWidget {
                     height: 200,
                     width: double.infinity,
                     color: ColorTheme.primaryColor,
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -87,7 +87,8 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ProductCategoryTile(
-                        onTap: () => context.pushRoute(MenuRoute(product: productList[0])),
+                        // onTap: () => context.pushRoute(MenuRoute(product: productList[0])),
+                        onTap: () {},
                         image: productList[0].image,
                         category: "Hot Drinks",
                       ),

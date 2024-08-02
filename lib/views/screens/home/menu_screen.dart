@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:pocofino/config/strings/color.dart';
+import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/models/product.dart';
-import 'package:pocofino/views/widgets/tiles/product_tile.dart';
+import 'package:pocofino/widgets/tiles/product_tile.dart';
 
 @RoutePage()
 class MenuScreen extends StatelessWidget {
