@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
+import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/utils/strings/images.dart';
 import 'package:pocofino/widgets/tiles/product_category_tile.dart';
@@ -179,15 +181,26 @@ class _MenuViewState extends State<MenuView> {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    height: 165.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                          PngImages.coldDrink,
+                                  InkWell(
+                                    onTap: () {
+                                      context.pushNamed(
+                                        ProductPage.route,
+                                        pathParameters: {
+                                          "product_id": product.id,
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 165.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            PngImages.coldDrink,
+                                          ),
+                                          fit: BoxFit.cover,
                                         ),
-                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),

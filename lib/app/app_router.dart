@@ -9,6 +9,7 @@ import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';
 import 'package:pocofino/features/menu/view/menu_page.dart';
+import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/features/wallet/view/wallet_page.dart';
 import 'package:pocofino/layout/home_page.dart';
 
@@ -39,6 +40,13 @@ class AppRouter {
             path: "menu",
             name: MenuPage.route,
             builder: (context, state) => const MenuPage(),
+          ),
+          GoRoute(
+            path: ":product_id",
+            name: ProductPage.route,
+            builder: (context, state) => ProductPage(
+              product: state.pathParameters["product_id"]!,
+            ),
           ),
           GoRoute(
             path: "activity",

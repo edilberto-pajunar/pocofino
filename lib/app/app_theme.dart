@@ -7,8 +7,16 @@ class AppTheme {
       primary: ColorTheme.primaryColor,
       secondary: ColorTheme.secondaryColor,
       surface: ColorTheme.backgroundColor,
+      primaryContainer: ColorTheme.greyColor,
     ),
-    
-    
+    scaffoldBackgroundColor: ColorTheme.backgroundColor,
+    textTheme: const TextTheme(
+      titleLarge: TextStyle(
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    dividerTheme: DividerThemeData(
+      color: ColorTheme.greyColor,
+    ),
   );
 }

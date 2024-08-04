@@ -12,6 +12,7 @@ class Product extends Equatable {
   final String img;
   final bool popular;
   final String category;
+  final List<double> ounces;
 
   const Product({
     required this.id,
@@ -21,6 +22,7 @@ class Product extends Equatable {
     required this.img,
     this.popular = false,
     required this.category,
+    required this.ounces,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) =>
@@ -36,6 +38,7 @@ class Product extends Equatable {
         price,
         img,
         popular,
+        ounces,
       ];
 
   static final List<Product> products = [
@@ -47,6 +50,7 @@ class Product extends Equatable {
       img: 'https://example.com/latte.jpg',
       popular: true,
       category: 'hot',
+      ounces: [6, 16],
     ),
     const Product(
       id: '2',
@@ -56,6 +60,7 @@ class Product extends Equatable {
       img: 'https://example.com/iced_coffee.jpg',
       popular: true,
       category: 'cold',
+      ounces: [6, 16],
     ),
     const Product(
       id: '3',
@@ -65,6 +70,7 @@ class Product extends Equatable {
       img: 'https://example.com/cappuccino.jpg',
       popular: false,
       category: 'hot',
+      ounces: [6, 16],
     ),
     const Product(
       id: '4',
@@ -74,6 +80,7 @@ class Product extends Equatable {
       img: 'https://example.com/muffin.jpg',
       popular: true,
       category: 'savories',
+      ounces: [6, 16],
     ),
     const Product(
       id: '5',
@@ -83,6 +90,7 @@ class Product extends Equatable {
       img: 'https://example.com/smoothie.jpg',
       popular: true,
       category: 'cold',
+      ounces: [6, 16],
     ),
   ];
 }

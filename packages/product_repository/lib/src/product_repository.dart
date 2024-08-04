@@ -23,6 +23,7 @@ class ProductRepository {
       docIdList: products.map((product) => product.id).toList(),
       dataFromId: (id) =>
           products.firstWhere((product) => product.id == id).toJson(),
+      merge: true,
     );
   }
 }
