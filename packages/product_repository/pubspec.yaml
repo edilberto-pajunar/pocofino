@@ -1,6 +1,7 @@
-name: user_repository
+name: product_repository
 description: "A new Flutter package project."
 version: 0.0.1
+publish_to: none
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
@@ -11,13 +12,14 @@ dependencies:
     sdk: flutter
   equatable: ^2.0.5
   json_serializable: ^6.8.0
+  database_api:
+    path: ../database_api
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
   build_runner: ^2.4.6
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

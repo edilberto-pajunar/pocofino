@@ -20,7 +20,7 @@ class ProductCategoryTile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
-            child: Image.network(
+            child: Image.asset(
               image,
               height: 85,
               width: 85,

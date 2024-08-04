@@ -24,6 +24,8 @@ dependencies:
   bloc: ^8.1.3
   cupertino_icons: ^1.0.2
   cloud_firestore: ^5.2.0
+  database_api:
+    path: packages/database_api
   equatable: ^2.0.5
   firebase_core: ^3.3.0
   firebase_auth: ^5.1.3
@@ -35,6 +37,10 @@ dependencies:
   get_it: ^7.6.7
   google_sign_in: ^6.2.1
   go_router: ^14.2.0
+  product_repository:
+    path: packages/product_repository
+  user_repository:
+    path: packages/user_repository
 
 dev_dependencies:
   flutter_test:

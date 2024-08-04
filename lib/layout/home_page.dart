@@ -59,12 +59,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: homeTabWidgetRecords
-            .map((tabRecord) => tabRecord.tabView)
-            .toList()[tabIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: tabIndex,
+        onDestinationSelected: (selectedIndex) =>
+            setState(() => tabIndex = selectedIndex),
+        destinations: homeTabWidgetRecords
+            .map((tabRecord) => tabRecord.tabBarItem)
+            .toList(),
       ),
+      body: homeTabWidgetRecords
+          .map((tabRecord) => tabRecord.tabView)
+          .toList()[tabIndex],
     );
   }
 }

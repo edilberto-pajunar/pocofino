@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocofino/utils/strings/color.dart';
-import 'package:pocofino/models/product.dart';
+import 'package:product_repository/product_repository.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile({
@@ -24,7 +24,7 @@ class ProductTile extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
             child: Image.network(
-              product.image,
+              product.img,
               height: 165,
               width: 165,
             ),

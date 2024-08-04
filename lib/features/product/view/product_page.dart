@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocofino/features/menu/view/product_view.dart';
+import 'package:pocofino/features/product/view/product_view.dart';
 
 class ProductPage extends StatelessWidget {
   static String route = "product_page_route";
