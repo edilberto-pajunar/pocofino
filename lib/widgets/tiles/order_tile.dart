@@ -80,7 +80,9 @@ class OrderTile extends StatelessWidget {
         const SizedBox(width: 30.0),
         Text(
           "₱ $price ",
-          style: theme.textTheme.titleSmall,
+          style: theme.textTheme.titleMedium!.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

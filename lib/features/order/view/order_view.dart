@@ -12,7 +12,6 @@ class OrderView extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F0F0),
       appBar: AppBar(
         title: Column(
           children: [
