@@ -9,6 +9,8 @@ import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';
 import 'package:pocofino/features/menu/view/menu_page.dart';
+import 'package:pocofino/features/order/view/contact_page.dart';
+import 'package:pocofino/features/order/view/location_page.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/features/wallet/view/wallet_page.dart';
@@ -63,6 +65,18 @@ class AppRouter {
             path: "cart",
             name: CartPage.route,
             builder: (context, state) => const CartPage(),
+            routes: [
+              GoRoute(
+                path: "contact",
+                name: ContactPage.route,
+                builder: (context, state) => const ContactPage(),
+              ),
+              GoRoute(
+                path: "location",
+                name: LocationPage.route,
+                builder: (context, state) => const LocationPage(),
+              ),
+            ],
           ),
           GoRoute(
             path: "order",

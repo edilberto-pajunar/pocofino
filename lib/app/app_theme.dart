@@ -15,6 +15,14 @@ class AppTheme {
         fontWeight: FontWeight.bold,
       ),
     ),
+    appBarTheme: AppBarTheme(
+      titleTextStyle: TextStyle(
+        color: ColorTheme.primaryColor,
+        fontWeight: FontWeight.bold,
+        fontSize: 24.0,
+      ),
+      centerTitle: true,
+    ),
     dividerTheme: DividerThemeData(
       color: ColorTheme.greyColor,
     ),

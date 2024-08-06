@@ -1,5 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/order/view/contact_page.dart';
+import 'package:pocofino/features/order/view/location_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/tiles/order_tile.dart';
@@ -80,6 +82,7 @@ class OrderView extends StatelessWidget {
                       child: Column(
                         children: [
                           ListTile(
+                            onTap: () => context.pushNamed(ContactPage.route),
                             leading: Icon(
                               Icons.person,
                               color: ColorTheme.primaryColor,
@@ -95,6 +98,7 @@ class OrderView extends StatelessWidget {
                             trailing: const Icon(Icons.arrow_forward_ios),
                           ),
                           ListTile(
+                            onTap: () => context.pushNamed(LocationPage.route),
                             leading: Icon(
                               Icons.pin_drop_sharp,
                               color: ColorTheme.primaryColor,

@@ -1,11 +1,9 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocofino/features/auth/bloc/auth_bloc.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
-import 'package:pocofino/widgets/fields/password_text_field.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
