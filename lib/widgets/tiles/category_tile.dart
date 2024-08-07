@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/category/view/category_page.dart';
+import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 
-class ProductCategoryTile extends StatelessWidget {
-  const ProductCategoryTile({
+class CategoryTile extends StatelessWidget {
+  const CategoryTile({
     super.key,
-    required this.onTap,
     required this.image,
     required this.category,
   });
 
-  final Function() onTap;
   final String image;
   final String category;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    return GestureDetector(
+      onTap: () => context.pushNamed(CategoryPage.route, pathParameters: {
+        "category": category,
+      }, extra: {
+        "menuBloc": context.read<MenuBloc>(),
+      }),
       child: Column(
         children: [
           ClipRRect(

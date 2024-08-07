@@ -26,5 +26,6 @@ class AppTheme {
     dividerTheme: DividerThemeData(
       color: ColorTheme.greyColor,
     ),
+    fontFamily: "Avenir",
   );
 }

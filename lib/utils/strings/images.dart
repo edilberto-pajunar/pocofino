@@ -5,4 +5,7 @@ class PngImages {
   static String savory = "assets/images/savory.png";
   static String pocofino = "assets/images/pocofino.png";
   static String banner = "assets/images/banner.png";
+  static String wallet = "assets/images/wallet.png";
+  static String gcash = "assets/images/gcash.png";
+  static String maya = "assets/images/maya.png";
 }

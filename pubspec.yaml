@@ -74,6 +74,11 @@ flutter:
     - family: Bely Display
       fonts:
         - asset: assets/fonts/Bely-Display-W00-Regular.ttf
+    - family: Avenir
+      fonts:
+        - asset: assets/fonts/AvenirLTStd-Black.otf
+        - asset: assets/fonts/AvenirLTStd-Book.otf
+        - asset: assets/fonts/AvenirLTStd-Roman.otf
    
   #
   # For details regarding fonts from package dependencies,

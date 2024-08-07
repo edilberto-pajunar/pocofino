@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/order/view/contact_page.dart';
 import 'package:pocofino/features/order/view/location_page.dart';
+import 'package:pocofino/features/order/view/pick_up_time_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
+import 'package:pocofino/utils/strings/images.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
+import 'package:pocofino/widgets/fields/primary_text_field.dart';
 import 'package:pocofino/widgets/tiles/order_tile.dart';
 
-class OrderView extends StatelessWidget {
+class OrderView extends StatefulWidget {
   const OrderView({super.key});
+
+  @override
+  State<OrderView> createState() => _OrderViewState();
+}
+
+class _OrderViewState extends State<OrderView> {
+  final GlobalKey<FormFieldState> _formKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,38 +44,6 @@ class OrderView extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      bottomNavigationBar: BottomAppBar(
-        height: 102,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "TOTAL",
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  "₱ 660",
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: ColorTheme.primaryColor,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            PrimaryButton(
-              // onPressed: () => context.pushRoute(const OrderSuccessRoute()),
-              onPressed: () {},
-              label: "Place Order",
-            ),
-          ],
-        ),
-      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return ConstrainedBox(
@@ -74,118 +53,234 @@ class OrderView extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10.0),
-                    Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            onTap: () => context.pushNamed(ContactPage.route),
-                            leading: Icon(
-                              Icons.person,
-                              color: ColorTheme.primaryColor,
-                            ),
-                            title: Text(
-                              "Contact Information",
-                              style: theme.textTheme.titleMedium,
-                            ),
-                            subtitle: Text(
-                              "Add contact information",
-                              style: theme.textTheme.bodySmall,
-                            ),
-                            trailing: const Icon(Icons.arrow_forward_ios),
-                          ),
-                          ListTile(
-                            onTap: () => context.pushNamed(LocationPage.route),
-                            leading: Icon(
-                              Icons.pin_drop_sharp,
-                              color: ColorTheme.primaryColor,
-                            ),
-                            title: Text(
-                              "Pick up at",
-                              style: theme.textTheme.titleMedium,
-                            ),
-                            subtitle: Text(
-                              "Select branch",
-                              style: theme.textTheme.bodySmall,
-                            ),
-                            trailing: const Icon(Icons.arrow_forward_ios),
-                          ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.watch_later_rounded,
-                              color: ColorTheme.primaryColor,
-                            ),
-                            title: Text(
-                              "Pick up in",
-                              style: theme.textTheme.titleMedium,
-                            ),
-                            subtitle: Text(
-                              "Select time",
-                              style: theme.textTheme.bodySmall,
-                            ),
-                            trailing: const Icon(Icons.arrow_forward_ios),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(20.0),
+                child: FormBuilder(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10.0),
+                      Container(
                         color: Colors.white,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Your Order",
-                              style: theme.textTheme.titleLarge,
-                            ),
-                            const SizedBox(height: 30.0),
-                            const OrderTile(
-                              image:
-                                  "https://i.pinimg.com/564x/50/f1/7c/50f17c380525acf16c5ad8df185b1554.jpg",
-                              title: "Iced Pocofino Latte",
-                              price: "490",
-                              quantity: 2,
-                              size: "6",
-                              edit: true,
-                            ),
-                            const SizedBox(height: 30.0),
-                            RichText(
-                              text: TextSpan(
-                                style: theme.textTheme.bodyMedium,
-                                children: [
-                                  const TextSpan(
-                                      text: "Leave a note to baristas "),
-                                  TextSpan(
-                                    text: "(Optional)",
-                                    style: theme.textTheme.bodyMedium!.copyWith(
-                                      color: ColorTheme.subtitleColor,
-                                    ),
-                                  ),
-                                ],
+                            ListTile(
+                              onTap: () => context.pushNamed(ContactPage.route),
+                              leading: Icon(
+                                Icons.person,
+                                color: ColorTheme.primaryColor,
                               ),
-                            ),
-                            const SizedBox(height: 8.0),
-                            TextField(
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                hintText:
-                                    "Feel Free to reach out if you have requests",
-                                hintStyle: theme.textTheme.bodyMedium!.copyWith(
-                                  color: ColorTheme.subtitleColor,
-                                ),
+                              title: Text(
+                                "Contact Information",
+                                style: theme.textTheme.titleMedium,
                               ),
+                              subtitle: Text(
+                                "Add contact information",
+                                style: theme.textTheme.bodySmall,
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                            ),
+                            ListTile(
+                              onTap: () =>
+                                  context.pushNamed(LocationPage.route),
+                              leading: Icon(
+                                Icons.pin_drop_sharp,
+                                color: ColorTheme.primaryColor,
+                              ),
+                              title: Text(
+                                "Pick up at",
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              subtitle: Text(
+                                "Select branch",
+                                style: theme.textTheme.bodySmall,
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                            ),
+                            ListTile(
+                              onTap: () =>
+                                  context.pushNamed(PickUpTimePage.route),
+                              leading: Icon(
+                                Icons.watch_later_rounded,
+                                color: ColorTheme.primaryColor,
+                              ),
+                              title: Text(
+                                "Pick up in",
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              subtitle: Text(
+                                "Select time",
+                                style: theme.textTheme.bodySmall,
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 10.0),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(20.0),
+                          color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Your Order",
+                                style: theme.textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 30.0),
+                              const OrderTile(
+                                image:
+                                    "https://i.pinimg.com/564x/50/f1/7c/50f17c380525acf16c5ad8df185b1554.jpg",
+                                title: "Iced Pocofino Latte",
+                                price: "490",
+                                quantity: 2,
+                                size: "6",
+                                edit: true,
+                              ),
+                              const SizedBox(height: 30.0),
+                              const PrimaryTextField(
+                                name: "note",
+                                label: "Leave a note to baristas (Optional)",
+                                hintText:
+                                    "Feel free to reach out if you have requests",
+                                maxLines: 5,
+                              ),
+                              const SizedBox(height: 12.0),
+                              Text(
+                                "Payment Option",
+                                style: theme.textTheme.titleLarge,
+                              ),
+                              const SizedBox(height: 12.0),
+                              FormBuilderRadioGroup(
+                                name: "payment",
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                controlAffinity: ControlAffinity.trailing,
+                                orientation: OptionsOrientation.vertical,
+                                itemDecoration: const BoxDecoration(),
+                                options: [
+                                  FormBuilderFieldOption(
+                                    value: "wallet",
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              PngImages.wallet,
+                                              width: 24.0,
+                                            ),
+                                            const SizedBox(width: 4.0),
+                                            Text(
+                                              "Wallet",
+                                              style: theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  FormBuilderFieldOption(
+                                    value: "gcash",
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              PngImages.gcash,
+                                              width: 24.0,
+                                            ),
+                                            const SizedBox(width: 4.0),
+                                            Text(
+                                              "GCash",
+                                              style: theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  FormBuilderFieldOption(
+                                    value: "maya",
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              PngImages.maya,
+                                              width: 24.0,
+                                            ),
+                                            const SizedBox(width: 4.0),
+                                            Text(
+                                              "Maya",
+                                              style: theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "TOTAL",
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "₱ 660",
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorTheme.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10.0),
+                            PrimaryButton(
+                              onPressed: () {},
+                              label: "Place Order",
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

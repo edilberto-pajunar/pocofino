@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
-import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/utils/strings/images.dart';
-import 'package:pocofino/widgets/tiles/product_category_tile.dart';
+import 'package:pocofino/widgets/tiles/category_tile.dart';
+import 'package:pocofino/widgets/tiles/product_tile.dart';
 import 'package:product_repository/product_repository.dart';
 
 class MenuView extends StatefulWidget {
@@ -135,22 +134,15 @@ class _MenuViewState extends State<MenuView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ProductCategoryTile(
-                          onTap: () {
-                            context
-                                .read<ProductRepository>()
-                                .setProducts(Product.products);
-                          },
+                        CategoryTile(
                           image: PngImages.hotDrink,
                           category: "Hot Drinks",
                         ),
-                        ProductCategoryTile(
-                          onTap: () {},
+                        CategoryTile(
                           image: PngImages.coldDrink,
                           category: "Cold Drinks",
                         ),
-                        ProductCategoryTile(
-                          onTap: () {},
+                        CategoryTile(
                           image: PngImages.savory,
                           category: "Savories",
                         ),
@@ -178,43 +170,7 @@ class _MenuViewState extends State<MenuView> {
                             ),
                             itemBuilder: (context, index) {
                               final product = products[index];
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      context.pushNamed(
-                                        ProductPage.route,
-                                        pathParameters: {
-                                          "product_id": product.id,
-                                        },
-                                      );
-                                    },
-                                    child: Container(
-                                      height: 165.0,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            PngImages.coldDrink,
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4.0),
-                                  Text(product.title),
-                                  Text(
-                                    "${product.price} PHP",
-                                    style: theme.textTheme.bodyMedium!.copyWith(
-                                      color: theme.colorScheme.primary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              );
+                              return ProductTile(product: product);
                             },
                           ),
                         );

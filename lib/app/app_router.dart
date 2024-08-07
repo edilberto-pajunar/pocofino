@@ -8,10 +8,12 @@ import 'package:pocofino/features/activity/view/activity_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';
+import 'package:pocofino/features/category/view/category_page.dart';
 import 'package:pocofino/features/menu/view/menu_page.dart';
 import 'package:pocofino/features/order/view/contact_page.dart';
 import 'package:pocofino/features/order/view/location_page.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
+import 'package:pocofino/features/order/view/pick_up_time_page.dart';
 import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/features/wallet/view/wallet_page.dart';
 import 'package:pocofino/layout/home_page.dart';
@@ -43,6 +45,16 @@ class AppRouter {
             path: "menu",
             name: MenuPage.route,
             builder: (context, state) => const MenuPage(),
+            routes: [
+              GoRoute(
+                path: ":category",
+                name: CategoryPage.route,
+                builder: (context, state) => CategoryPage(
+                  category: state.pathParameters["category"]!,
+                  menuBloc: (state.extra as Map)["menuBloc"],
+                ),
+              )
+            ],
           ),
           GoRoute(
             path: "product/:product_id",
@@ -75,6 +87,11 @@ class AppRouter {
                 path: "location",
                 name: LocationPage.route,
                 builder: (context, state) => const LocationPage(),
+              ),
+              GoRoute(
+                path: "pick_up_time",
+                name: PickUpTimePage.route,
+                builder: (context, state) => const PickUpTimePage(),
               ),
             ],
           ),

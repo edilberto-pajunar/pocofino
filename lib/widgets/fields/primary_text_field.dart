@@ -8,6 +8,7 @@ class PrimaryTextField extends StatefulWidget {
     required this.hintText,
     this.validator,
     this.isPassword = false,
+    this.maxLines = 1,
     super.key,
   });
 
@@ -16,6 +17,7 @@ class PrimaryTextField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
   final String? Function(String?)? validator;
+  final int maxLines;
 
   @override
   State<PrimaryTextField> createState() => _PrimaryTextFieldState();
@@ -33,6 +35,7 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
         FormBuilderTextField(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           name: widget.name,
+          maxLines: widget.maxLines,
           obscureText: obscureText,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
