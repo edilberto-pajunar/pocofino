@@ -1,24 +1,24 @@
 part of 'auth_bloc.dart';
 
-enum LoginStatus {
+enum AuthStatus {
   idle,
-  loggingIn,
+  loading,
   cancelled,
-  loginSuccess,
-  loginFailure,
+  success,
+  failure,
 }
 
 final class AuthState extends Equatable {
-  final LoginStatus status;
+  final AuthStatus status;
   final String? error;
 
   const AuthState({
-    this.status = LoginStatus.idle,
+    this.status = AuthStatus.idle,
     this.error,
   });
 
   AuthState copyWith({
-    LoginStatus? status,
+    AuthStatus? status,
     String? error,
   }) {
     return AuthState(

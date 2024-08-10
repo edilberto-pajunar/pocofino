@@ -18,6 +18,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  api_repository:
+    path: packages/api_repository
   auth_repository:
     path: packages/auth_repository
   bloc: ^8.1.3

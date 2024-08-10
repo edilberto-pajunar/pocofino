@@ -38,7 +38,9 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
           maxLines: widget.maxLines,
           obscureText: obscureText,
           decoration: InputDecoration(
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 12.0,
               vertical: 12.0,

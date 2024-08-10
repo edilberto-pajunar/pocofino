@@ -10,3 +10,9 @@ class MenuEvent extends Equatable {
 final class MenuInitRequested extends MenuEvent {}
 
 final class MenuInitProductsRequested extends MenuEvent {}
+
+final class MenuFailed extends MenuEvent {
+  final String error;
+
+  const MenuFailed(this.error);
+}

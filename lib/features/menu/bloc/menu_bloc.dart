@@ -14,6 +14,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
         super(const MenuState()) {
     on<MenuInitRequested>(_onInitRequested);
     on<MenuInitProductsRequested>(_onInitProductsRequested);
+    on<MenuFailed>(_onMenuFailed);
   }
 
   void _onInitRequested(
@@ -27,7 +28,27 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     MenuInitProductsRequested event,
     Emitter<MenuState> emit,
   ) async {
-    await emit.forEach(_productRepository.productStream(),
-        onData: (products) => MenuState(products: products));
+    try {
+      emit(state.copyWith(status: MenuStatus.loading));
+      final products = await _productRepository.getProducts();
+      emit(state.copyWith(
+        status: MenuStatus.success,
+        products: products,
+      ));
+    } catch (e) {
+      add(MenuFailed(e.toString()));
+    }
+    // await emit.forEach(_productRepository.productStream(),
+    //     onData: (products) => MenuState(products: products));
+  }
+
+  void _onMenuFailed(
+    MenuFailed event,
+    Emitter<MenuState> emit,
+  ) async {
+    emit(state.copyWith(
+      status: MenuStatus.failure,
+      error: event.error,
+    ));
   }
 }

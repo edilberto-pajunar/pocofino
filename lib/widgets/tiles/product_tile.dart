@@ -24,7 +24,7 @@ class ProductTile extends StatelessWidget {
             context.pushNamed(
               ProductPage.route,
               pathParameters: {
-                "product_id": product.id,
+                "product_id": product.id.toString(),
               },
             );
           },

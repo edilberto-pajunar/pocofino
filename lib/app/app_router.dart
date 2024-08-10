@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:auth_repository/auth_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
+import 'package:pocofino/features/admin/features/home/admin_home_page.dart';
+import 'package:pocofino/features/admin/features/products/view/admin_product_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';
@@ -27,17 +30,21 @@ class AppRouter {
     navigatorKey: navigatorKey,
     routes: [
       GoRoute(
-        path: "/login",
+        path: "/",
         name: LoginPage.route,
         builder: (context, state) => const LoginPage(),
+        routes: [
+          GoRoute(
+            path: "create",
+            name: SignUpPage.route,
+            builder: (context, state) => SignUpPage(
+              authBloc: (state.extra as Map)["authBloc"],
+            ),
+          ),
+        ],
       ),
       GoRoute(
-        path: "/sign_up",
-        name: SignUpPage.route,
-        builder: (context, state) => const SignUpPage(),
-      ),
-      GoRoute(
-        path: "/",
+        path: "/home",
         name: HomePage.route,
         builder: (context, state) => const HomePage(),
         routes: [
@@ -105,20 +112,44 @@ class AppRouter {
             name: AccountPage.route,
             builder: (context, state) => const AccountPage(),
           ),
+
+          /// [Admin]
+          GoRoute(
+            path: "admin",
+            name: AdminHomePage.route,
+            builder: (context, state) => const AdminHomePage(),
+          ),
         ],
       ),
     ],
     redirect: (context, state) async {
+      print("Current location: ${state.path}");
       final currentUser = await authRepository.currentUserStream.first;
       final isLoggedIn = currentUser != null;
       final loggingIn = state.matchedLocation.startsWith('/login');
 
-      // If the user is not logged in, they must login
-      if (!isLoggedIn) return loggingIn ? null : '/login';
+      final isAdmin = currentUser?.email == "admin@gmail.com";
 
-      // If the user is logged in but still on AuthView, send them to
-      // the home
-      if (loggingIn) return '/';
+      // If the user is not logged in, they must login
+
+      // if (isLoggedIn) {
+      //   // if the user is admin
+      //   if (kIsWeb && isAdmin) {
+      //     return "/admin";
+      //   }
+      // } else if (!isLoggedIn) {
+      //   // if the user is not logged in, they must login
+      //   return "/login";
+      // }
+
+      // // If the user is logged in but still on AuthView, send them to
+      // // the home
+      // if (loggingIn) {
+      //   if (isAdmin) {
+      //     return "/admin";
+      //   }
+      //   return "/";
+      // }
 
       // No need to redirect at all
       return null;

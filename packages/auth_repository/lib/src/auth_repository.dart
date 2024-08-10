@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:api_repository/api_repository.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:database_api/database_api.dart';
+import 'package:http/http.dart' as http;
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -11,6 +15,7 @@ class AuthRepository {
   AuthRepository({
     required FirebaseAuth firebaseAuth,
     required GoogleSignIn googleSignIn,
+    required ApiRepository apiRepository,
   })  : _firebaseAuth = firebaseAuth,
         _googleSignIn = googleSignIn;
 
@@ -78,5 +83,77 @@ class AuthRepository {
       },
       merge: true,
     );
+  }
+
+  Future<UserCredential?> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final userCreds = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCreds;
+    } catch (e) {
+      throw LoginException(e as Exception);
+    }
+  }
+
+  // <--------------- ALL HTTP REQUESTS ---------------->
+  Future<void> createAccount({
+    required String username,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final uri = Uri.http(ApiRepository.baseUrl, "/api/register");
+      final body = {
+        "username": username,
+        "email": email,
+        "password": password,
+      };
+
+      final response = await http.post(
+        uri,
+        body: body,
+        headers: ApiRepository.headers,
+      );
+
+      if (response.statusCode == 200) {
+        log("Account created successfully!");
+      } else {
+        throw response.body;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final uri = Uri.http(ApiRepository.baseUrl, "/api/login");
+      final body = {
+        "email": email,
+        "password": password,
+      };
+
+      final response = await http.post(
+        uri,
+        body: body,
+        headers: ApiRepository.headers,
+      );
+
+      if (response.statusCode == 200) {
+        log("Account created successfully!");
+      } else {
+        throw response.body;
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -130,6 +130,11 @@ class _MenuViewState extends State<MenuView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          context.read<MenuBloc>().add(MenuInitRequested()),
+                      child: const Text("hi"),
+                    ),
                     const SizedBox(height: 22.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,6 +162,7 @@ class _MenuViewState extends State<MenuView> {
                     BlocSelector<MenuBloc, MenuState, List<Product>>(
                       selector: (state) => state.products,
                       builder: (context, products) {
+                        print(products);
                         return SizedBox(
                           child: GridView.builder(
                             itemCount: products.length,

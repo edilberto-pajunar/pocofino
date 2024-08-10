@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/auth/bloc/auth_bloc.dart';
+import 'package:pocofino/features/auth/view/login_page.dart';
+import 'package:pocofino/features/menu/view/menu_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/fields/primary_text_field.dart';
@@ -10,16 +13,15 @@ import 'package:pocofino/widgets/fields/primary_text_field.dart';
 class SignUpView extends StatefulWidget {
   const SignUpView({
     super.key,
-    required this.formKey,
   });
-
-  final GlobalKey<FormBuilderState> formKey;
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  final GlobalKey<FormBuilderState> formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -41,22 +43,14 @@ class _SignUpViewState extends State<SignUpView> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   FormBuilder(
-                    key: widget.formKey,
-                    onChanged: () => widget.formKey.currentState!.save(),
+                    key: formKey,
+                    onChanged: () => formKey.currentState!.save(),
                     skipDisabled: true,
                     child: Column(
                       children: [
-                        PrimaryTextField(
-                          label: "Name",
-                          name: "name",
-                          hintText: "name",
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                          ]),
-                        ),
                         PrimaryTextField(
                           label: "Username",
                           name: "username",
@@ -86,21 +80,32 @@ class _SignUpViewState extends State<SignUpView> {
                       ],
                     ),
                   ),
-                  PrimaryButton(
-                    onPressed: () {
-                      if (widget.formKey.currentState!.validate()) {
-                        context.read<AuthBloc>().add(AuthCreateAccountRequested(
-                              username: widget
-                                  .formKey.currentState!.value["username"],
-                              name: widget.formKey.currentState!.value["name"],
-                              email:
-                                  widget.formKey.currentState!.value["email"],
-                              password: widget
-                                  .formKey.currentState!.value["password"],
-                            ));
+                  BlocConsumer<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state.status == AuthStatus.success) {
+                        context.goNamed(MenuPage.route);
                       }
                     },
-                    label: "Sign Up",
+                    builder: (context, state) {
+                      return state.status == AuthStatus.loading
+                          ? const CircularProgressIndicator()
+                          : PrimaryButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  final formValue = formKey.currentState?.value;
+
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(AuthCreateAccountRequested(
+                                        username: formValue?["username"],
+                                        email: formValue?["email"],
+                                        password: formValue?["password"],
+                                      ));
+                                }
+                              },
+                              label: "Sign Up",
+                            );
+                    },
                   ),
                   const SizedBox(height: 30.0),
                   const Row(

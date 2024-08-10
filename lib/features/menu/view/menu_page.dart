@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 import 'package:pocofino/features/menu/view/menu_view.dart';
 import 'package:product_repository/product_repository.dart';
@@ -14,7 +15,14 @@ class MenuPage extends StatelessWidget {
       create: (context) => MenuBloc(
         productRepository: context.read<ProductRepository>(),
       )..add(MenuInitRequested()),
-      child: const MenuView(),
+      child: BlocListener<MenuBloc, MenuState>(
+        listener: (context, state) {
+          if (state.status == MenuStatus.failure) {
+            Fluttertoast.showToast(msg: state.error!);
+          }
+        },
+        child: const MenuView(),
+      ),
     );
   }
 }

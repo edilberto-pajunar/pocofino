@@ -1,54 +1,48 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:api_repository/api_repository.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:database_api/database_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pocofino/app/app_router.dart';
 import 'package:pocofino/app/app_theme.dart';
+import 'package:pocofino/app/view/app.dart';
 import 'package:pocofino/firebase_options.dart';
 import 'package:product_repository/product_repository.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-  runApp(MyApp());
+    runAppIn();
+  }, (error, trace) {
+    Fluttertoast.showToast(msg: "$error");
+    log("An unhandled exception occured", error: error, stackTrace: trace);
+  });
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+void runAppIn() {
+  final databaseApi = DatabaseApi.instance..clearCachedData();
 
-  final AppRouter appRouter = AppRouter(
+  runApp(App(
     authRepository: AuthRepository(
       firebaseAuth: FirebaseAuth.instance,
       googleSignIn: GoogleSignIn(),
+      apiRepository: ApiRepository(),
     ),
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => AuthRepository(
-            firebaseAuth: FirebaseAuth.instance,
-            googleSignIn: GoogleSignIn(),
-          ),
-        ),
-        RepositoryProvider(
-            create: (context) => ProductRepository(
-                  databaseApi: DatabaseApi.instance..clearCachedData(),
-                )),
-      ],
-      child: MaterialApp.router(
-        routerConfig: appRouter.config,
-        theme: AppTheme.theme,
-      ),
-    );
-  }
+    databaseApi: databaseApi,
+    productRepository: ProductRepository(
+      databaseApi: databaseApi,
+    ),
+  ));
 }

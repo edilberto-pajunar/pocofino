@@ -10,10 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  api_repository:
+    path: ../api_repository
+
   equatable: ^2.0.5
   json_serializable: ^6.8.0
   database_api:
     path: ../database_api
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
