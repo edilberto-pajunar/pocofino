@@ -17,7 +17,7 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: menuBloc,
+      value: menuBloc..add(MenuProductsCategoryRequested(category)),
       child: CategoryView(
         category: category,
       ),

@@ -42,7 +42,27 @@ class ProductRepository {
 
         final products = (jsonDecode(response.body) as List);
         return products.map((product) {
-          print(product["price"].runtimeType);
+          return Product.fromJson(product);
+        }).toList();
+      }
+      throw Exception("Error getting products");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Product>> getCategoryProducts(String category) async {
+    try {
+      final uri =
+          Uri.http(ApiRepository.baseUrl, "/api/products/categories/$category");
+      final response = await http.get(uri, headers: ApiRepository.headers);
+
+      if (response.statusCode == 200) {
+        log("Response: ${response.body}");
+
+        final products = (jsonDecode(response.body)["data"] as List);
+        print(products);
+        return products.map((product) {
           return Product.fromJson(product);
         }).toList();
       }

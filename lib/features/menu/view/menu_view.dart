@@ -130,26 +130,26 @@ class _MenuViewState extends State<MenuView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () =>
-                          context.read<MenuBloc>().add(MenuInitRequested()),
-                      child: const Text("hi"),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () =>
+                    //       context.read<MenuBloc>().add(MenuInitRequested()),
+                    //   child: const Text("hi"),
+                    // ),
                     const SizedBox(height: 22.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CategoryTile(
                           image: PngImages.hotDrink,
-                          category: "Hot Drinks",
+                          category: "1",
                         ),
                         CategoryTile(
                           image: PngImages.coldDrink,
-                          category: "Cold Drinks",
+                          category: "2",
                         ),
                         CategoryTile(
                           image: PngImages.savory,
-                          category: "Savories",
+                          category: "3",
                         ),
                       ],
                     ),

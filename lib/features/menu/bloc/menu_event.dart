@@ -11,6 +11,12 @@ final class MenuInitRequested extends MenuEvent {}
 
 final class MenuInitProductsRequested extends MenuEvent {}
 
+final class MenuProductsCategoryRequested extends MenuEvent {
+  final String category;
+
+  const MenuProductsCategoryRequested(this.category);
+}
+
 final class MenuFailed extends MenuEvent {
   final String error;
 
