@@ -11,6 +11,7 @@ class Product extends Equatable {
   final num price;
   // final String img;
   final bool popular;
+  final int quantity;
   // final String category;
   // final List<double> ounces;
 
@@ -21,6 +22,7 @@ class Product extends Equatable {
     required this.price,
     // required this.img,
     this.popular = false,
+    this.quantity = 0,
     // required this.category,
     // required this.ounces,
   });
@@ -30,6 +32,30 @@ class Product extends Equatable {
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 
+  Product copyWith({
+    int? id,
+    String? title,
+    String? description,
+    num? price,
+    // String? img,
+    bool? popular,
+    int? quantity,
+    // String? category,
+    // List<double>? ounces,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      // img: img ?? this.img,
+      popular: popular ?? this.popular,
+      quantity: quantity ?? this.quantity,
+      // category: category ?? this.category,
+      // ounces: ounces ?? this.ounces,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,
@@ -38,6 +64,7 @@ class Product extends Equatable {
         price,
         // img,
         popular,
+        quantity,
         // ounces,
       ];
 

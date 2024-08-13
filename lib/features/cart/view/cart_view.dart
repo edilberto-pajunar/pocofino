@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
@@ -17,73 +19,69 @@ class CartView extends StatelessWidget {
         title: const Text("CART"),
         centerTitle: true,
       ),
-      body: LayoutBuilder(
-        builder: (context, constraint) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraint.maxHeight,
+      bottomSheet: BottomAppBar(
+        height: 110,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "TOTAL",
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "₱ 660",
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: ColorTheme.primaryColor,
+                    ),
+                  ),
+                ],
               ),
-              child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Your Order",
-                            style: theme.textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 40.0),
-                          const OrderTile(
-                            image:
-                                "https://i.pinimg.com/564x/50/f1/7c/50f17c380525acf16c5ad8df185b1554.jpg",
-                            title: "Iced Pocofino Latte",
-                            price: "490",
-                            quantity: 2,
-                            size: "6",
-                            edit: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "TOTAL",
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                "₱ 660",
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorTheme.primaryColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10.0),
-                          PrimaryButton(
-                            onPressed: () => context.pushNamed(OrderPage.route),
-                            label: "Checkout",
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 10.0),
+              PrimaryButton(
+                onPressed: () => context.pushNamed(OrderPage.route),
+                label: "Checkout",
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Your Order",
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 12.0),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.products.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12.0),
+                    itemBuilder: (context, index) {
+                      final product = state.products[index];
+                      return OrderTile(
+                        product: product,
+                        canEdit: true,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 24.0),
+                ],
               ),
             ),
           );

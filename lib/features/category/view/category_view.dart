@@ -18,26 +18,35 @@ class CategoryView extends StatelessWidget {
       appBar: AppBar(
         title: Text(category.toUpperCase()),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: BlocSelector<MenuBloc, MenuState, List<Product>>(
-          selector: (state) => state.products,
-          builder: (context, products) {
-            return GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: products.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisExtent: 220.0,
-                crossAxisSpacing: 12.0,
-              ),
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return ProductTile(product: product);
-              },
+      body: BlocBuilder<MenuBloc, MenuState>(
+        builder: (context, state) {
+          if (state.status == MenuStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        ),
+          }
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: BlocSelector<MenuBloc, MenuState, List<Product>>(
+              selector: (state) => state.products,
+              builder: (context, products) {
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: products.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisExtent: 220.0,
+                    crossAxisSpacing: 12.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    final product = products[index];
+                    return ProductTile(product: product);
+                  },
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

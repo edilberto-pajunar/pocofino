@@ -6,9 +6,13 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:database_api/database_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pocofino/app/app_bloc_observer.dart';
 import 'package:pocofino/app/view/app.dart';
 import 'package:pocofino/firebase_options.dart';
 import 'package:product_repository/product_repository.dart';
@@ -29,6 +33,10 @@ void main() async {
 }
 
 void runAppIn() {
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver();
+  }
+
   final databaseApi = DatabaseApi.instance..clearCachedData();
 
   runApp(App(
@@ -36,6 +44,7 @@ void runAppIn() {
       firebaseAuth: FirebaseAuth.instance,
       googleSignIn: GoogleSignIn(),
       apiRepository: ApiRepository(),
+      flutterSecureStorage: const FlutterSecureStorage(),
     ),
     databaseApi: databaseApi,
     productRepository: ProductRepository(

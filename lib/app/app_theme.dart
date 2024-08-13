@@ -10,6 +10,12 @@ class AppTheme {
       primaryContainer: ColorTheme.greyColor,
     ),
     scaffoldBackgroundColor: ColorTheme.backgroundColor,
+    bottomAppBarTheme: BottomAppBarTheme(
+      color: ColorTheme.backgroundColor,
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: ColorTheme.backgroundColor,
+    ),
     textTheme: const TextTheme(
       titleLarge: TextStyle(
         fontWeight: FontWeight.bold,

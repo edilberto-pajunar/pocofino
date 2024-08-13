@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
 import 'package:pocofino/features/admin/features/home/admin_home_page.dart';
-import 'package:pocofino/features/admin/features/products/view/admin_product_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';
@@ -30,7 +29,7 @@ class AppRouter {
     navigatorKey: navigatorKey,
     routes: [
       GoRoute(
-        path: "/",
+        path: "/login",
         name: LoginPage.route,
         builder: (context, state) => const LoginPage(),
         routes: [
@@ -44,7 +43,7 @@ class AppRouter {
         ],
       ),
       GoRoute(
-        path: "/home",
+        path: "/",
         name: HomePage.route,
         builder: (context, state) => const HomePage(),
         routes: [
@@ -67,7 +66,8 @@ class AppRouter {
             path: "product/:product_id",
             name: ProductPage.route,
             builder: (context, state) => ProductPage(
-              product: state.pathParameters["product_id"]!,
+              product: (state.extra as Map)["product"]!,
+              cartBloc: (state.extra as Map)["cartBloc"],
             ),
           ),
           GoRoute(
@@ -122,41 +122,41 @@ class AppRouter {
         ],
       ),
     ],
-    redirect: (context, state) async {
-      print("Current location: ${state.path}");
-      final currentUser = await authRepository.currentUserStream.first;
-      final isLoggedIn = currentUser != null;
-      final loggingIn = state.matchedLocation.startsWith('/login');
+    // redirect: (context, state) async {
+    //   print("Current location: ${state.path}");
+    //   final currentUser = await authRepository.currentUserStream.first;
+    //   final isLoggedIn = currentUser != null;
+    //   final loggingIn = state.matchedLocation.startsWith('/login');
 
-      final isAdmin = currentUser?.email == "admin@gmail.com";
+    //   final isAdmin = currentUser?.email == "admin@gmail.com";
 
-      // If the user is not logged in, they must login
+    //   // If the user is not logged in, they must login
 
-      // if (isLoggedIn) {
-      //   // if the user is admin
-      //   if (kIsWeb && isAdmin) {
-      //     return "/admin";
-      //   }
-      // } else if (!isLoggedIn) {
-      //   // if the user is not logged in, they must login
-      //   return "/login";
-      // }
+    //   // if (isLoggedIn) {
+    //   //   // if the user is admin
+    //   //   if (kIsWeb && isAdmin) {
+    //   //     return "/admin";
+    //   //   }
+    //   // } else if (!isLoggedIn) {
+    //   //   // if the user is not logged in, they must login
+    //   //   return "/login";
+    //   // }
 
-      // // If the user is logged in but still on AuthView, send them to
-      // // the home
-      // if (loggingIn) {
-      //   if (isAdmin) {
-      //     return "/admin";
-      //   }
-      //   return "/";
-      // }
+    //   // // If the user is logged in but still on AuthView, send them to
+    //   // // the home
+    //   // if (loggingIn) {
+    //   //   if (isAdmin) {
+    //   //     return "/admin";
+    //   //   }
+    //   //   return "/";
+    //   // }
 
-      // No need to redirect at all
-      return null;
-    },
-    refreshListenable: _GoRouterRefreshStream(
-      authRepository.currentUserStream,
-    ),
+    //   // No need to redirect at all
+    //   return null;
+    // },
+    // refreshListenable: _GoRouterRefreshStream(
+    //   authRepository.currentUserStream,
+    // ),
   );
 }
 

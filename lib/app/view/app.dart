@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocofino/app/app_router.dart';
 import 'package:pocofino/app/view/app_view.dart';
+import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/features/auth/bloc/auth_bloc.dart';
 import 'package:product_repository/product_repository.dart';
 
 class App extends StatefulWidget {
@@ -35,7 +37,12 @@ class _AppState extends State<App> {
         RepositoryProvider.value(value: widget.databaseApi),
         RepositoryProvider.value(value: widget.productRepository),
       ],
-      child: AppView(_appRouter),
+      child: BlocProvider(
+        create: (context) => AppBloc(
+          authRepository: widget.authRepository,
+        )..add(AppInitRequested()),
+        child: AppView(_appRouter),
+      ),
     );
   }
 }

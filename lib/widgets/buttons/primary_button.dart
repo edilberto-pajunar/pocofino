@@ -9,7 +9,7 @@ class PrimaryButton extends StatelessWidget {
     super.key,
   });
 
-  final Function() onPressed;
+  final Function()? onPressed;
   final String label;
   final bool basic;
 
@@ -24,6 +24,7 @@ class PrimaryButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
           side: BorderSide(
+            width: onPressed == null ? 0 : 1.0,
             color: ColorTheme.primaryColor,
           ),
         ),

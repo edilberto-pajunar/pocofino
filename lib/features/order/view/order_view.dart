@@ -128,15 +128,9 @@ class _OrderViewState extends State<OrderView> {
                                 style: theme.textTheme.titleLarge,
                               ),
                               const SizedBox(height: 30.0),
-                              const OrderTile(
-                                image:
-                                    "https://i.pinimg.com/564x/50/f1/7c/50f17c380525acf16c5ad8df185b1554.jpg",
-                                title: "Iced Pocofino Latte",
-                                price: "490",
-                                quantity: 2,
-                                size: "6",
-                                edit: true,
-                              ),
+                              //  OrderTile(
+                              //   product: product,
+                              // ),
                               const SizedBox(height: 30.0),
                               const PrimaryTextField(
                                 name: "note",

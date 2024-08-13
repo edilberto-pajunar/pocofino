@@ -141,15 +141,18 @@ class _MenuViewState extends State<MenuView> {
                       children: [
                         CategoryTile(
                           image: PngImages.hotDrink,
-                          category: "1",
+                          index: "1",
+                          category: "Hot Drink",
                         ),
                         CategoryTile(
                           image: PngImages.coldDrink,
-                          category: "2",
+                          index: "2",
+                          category: "Cold Drink",
                         ),
                         CategoryTile(
                           image: PngImages.savory,
-                          category: "3",
+                          index: "3",
+                          category: "Savory",
                         ),
                       ],
                     ),
@@ -159,10 +162,12 @@ class _MenuViewState extends State<MenuView> {
                       style: theme.textTheme.titleLarge,
                     ),
                     const SizedBox(height: 12.0),
+                    const SizedBox(height: 12.0),
                     BlocSelector<MenuBloc, MenuState, List<Product>>(
-                      selector: (state) => state.products,
+                      selector: (state) => state.products
+                          .where((product) => product.popular)
+                          .toList(),
                       builder: (context, products) {
-                        print(products);
                         return SizedBox(
                           child: GridView.builder(
                             itemCount: products.length,

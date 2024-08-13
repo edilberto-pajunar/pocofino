@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/utils/strings/images.dart';
 import 'package:product_repository/product_repository.dart';
@@ -21,12 +23,12 @@ class ProductTile extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            context.pushNamed(
-              ProductPage.route,
-              pathParameters: {
-                "product_id": product.id.toString(),
-              },
-            );
+            context.pushNamed(ProductPage.route, extra: {
+              "product": product,
+              "cartBloc": context.read<CartBloc>(),
+            }, pathParameters: {
+              "product_id": product.id.toString(),
+            });
           },
           child: Container(
             height: 165.0,

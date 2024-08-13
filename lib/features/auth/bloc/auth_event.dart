@@ -29,7 +29,6 @@ final class AuthSignInRequested extends AuthEvent {
   });
 }
 
-
 final class AuthGoogleSignInAttempted extends AuthEvent {
   final String? userId;
 
@@ -43,7 +42,14 @@ final class AuthAdminSignInAttempted extends AuthEvent {
   const AuthAdminSignInAttempted(this.email, this.password);
 }
 
+final class AuthStoreTokenRequested extends AuthEvent {
+  final String token;
+
+  const AuthStoreTokenRequested(this.token);
+}
+
 final class AuthSignInFailed extends AuthEvent {
   final String signInException;
   const AuthSignInFailed(this.signInException);
 }
+

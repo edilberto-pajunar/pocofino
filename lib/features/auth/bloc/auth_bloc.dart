@@ -18,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthGoogleSignInAttempted>(_onGoogleSignInAttempted);
     on<AuthAdminSignInAttempted>(_onAdminSignInAttempted);
     on<AuthSignInRequested>(_onSignInRequested);
+    on<AuthStoreTokenRequested>(_onStoreTokenRequested);
     on<AuthSignInFailed>(_onSignInFailed);
   }
 
@@ -44,10 +45,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     try {
       emit(state.copyWith(status: AuthStatus.loading));
-      await _authRepository.signIn(
+      final token = await _authRepository.signIn(
         email: event.email,
         password: event.password,
       );
+      add(AuthStoreTokenRequested(token));
       emit(state.copyWith(status: AuthStatus.success));
     } catch (e) {
       add(AuthSignInFailed(e.toString()));
@@ -93,6 +95,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       add(AuthSignInFailed(e.toString()));
       rethrow;
     }
+  }
+
+  void _onStoreTokenRequested(
+    AuthStoreTokenRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    await _authRepository.storeToken("bearer", event.token);
   }
 
   void _onSignInFailed(

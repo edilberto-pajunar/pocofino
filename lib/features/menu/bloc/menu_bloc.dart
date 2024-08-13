@@ -7,10 +7,13 @@ part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final ProductRepository _productRepository;
+  final String _token;
 
   MenuBloc({
     required ProductRepository productRepository,
+    required String token,
   })  : _productRepository = productRepository,
+        _token = token,
         super(const MenuState()) {
     on<MenuInitRequested>(_onInitRequested);
     on<MenuInitProductsRequested>(_onInitProductsRequested);
@@ -31,7 +34,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   ) async {
     try {
       emit(state.copyWith(status: MenuStatus.loading));
-      final products = await _productRepository.getProducts();
+      final products = await _productRepository.getProducts(_token);
       emit(state.copyWith(
         status: MenuStatus.success,
         products: products,

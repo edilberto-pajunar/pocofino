@@ -6,9 +6,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/app/view/bloc/app_bloc.dart';
 import 'package:pocofino/features/auth/bloc/auth_bloc.dart';
+import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/menu/view/menu_page.dart';
+import 'package:pocofino/layout/home_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/fields/primary_text_field.dart';
@@ -82,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                       BlocConsumer<AuthBloc, AuthState>(
                         listener: (context, state) {
                           if (state.status == AuthStatus.success) {
-                            context.goNamed(MenuPage.route);
+                            context.read<AppBloc>().add(AppInitRequested());
                           }
                         },
                         builder: (context, state) {

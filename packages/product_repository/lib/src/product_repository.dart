@@ -32,10 +32,16 @@ class ProductRepository {
     // );
   }
 
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProducts(String token) async {
     try {
       final uri = Uri.http(ApiRepository.baseUrl, "/api/products");
-      final response = await http.get(uri, headers: ApiRepository.headers);
+      final response = await http.get(
+        uri,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
 
       if (response.statusCode == 200) {
         log("Response: ${response.body}");
@@ -61,7 +67,9 @@ class ProductRepository {
         log("Response: ${response.body}");
 
         final products = (jsonDecode(response.body)["data"] as List);
-        print(products);
+        // final productsList = products.map((product) {
+        //   return Product.fromJson(product);
+        // });
         return products.map((product) {
           return Product.fromJson(product);
         }).toList();

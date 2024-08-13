@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pocofino/utils/strings/color.dart';
+import 'package:product_repository/product_repository.dart';
 
 class OrderTile extends StatelessWidget {
   const OrderTile({
     super.key,
-    required this.image,
-    required this.title,
-    required this.size,
-    this.edit = false,
-    required this.price,
-    required this.quantity,
+    required this.product,
+    this.canEdit = false,
   });
 
-  final String image;
-  final String title;
-  final String size;
-  final int quantity;
-  final bool edit;
-  final String price;
+  final Product product;
+  final bool canEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +24,7 @@ class OrderTile extends StatelessWidget {
           visualDensity: VisualDensity.compact,
         ),
         Image.network(
-          image,
+          "https://i.pinimg.com/564x/50/f1/7c/50f17c380525acf16c5ad8df185b1554.jpg",
           height: 70,
           width: 70,
           fit: BoxFit.cover,
@@ -42,19 +35,19 @@ class OrderTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${quantity}x $title",
+                "${product.quantity}x ${product.title}",
                 style: theme.textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                "$size oz",
+                "6 oz",
                 style: theme.textTheme.bodySmall,
               ),
               const SizedBox(height: 14.0),
               Visibility(
-                visible: edit,
-                child: InkWell(
+                visible: canEdit,
+                child: GestureDetector(
                   onTap: () {},
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -79,7 +72,7 @@ class OrderTile extends StatelessWidget {
         ),
         const SizedBox(width: 30.0),
         Text(
-          "₱ $price ",
+          "₱ ${product.price} ",
           style: theme.textTheme.titleMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),

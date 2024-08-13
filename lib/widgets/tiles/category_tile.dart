@@ -9,16 +9,18 @@ class CategoryTile extends StatelessWidget {
     super.key,
     required this.image,
     required this.category,
+    required this.index,
   });
 
   final String image;
   final String category;
+  final String index;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => context.pushNamed(CategoryPage.route, pathParameters: {
-        "category": category,
+        "category": index,
       }, extra: {
         "menuBloc": context.read<MenuBloc>(),
       }),
