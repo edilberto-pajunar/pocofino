@@ -105,7 +105,9 @@ class AppRouter {
           GoRoute(
             path: "order",
             name: OrderPage.route,
-            builder: (context, state) => const OrderPage(),
+            builder: (context, state) => OrderPage(
+              products: (state.extra as Map)["products"]!,
+            ),
           ),
           GoRoute(
             path: "account",

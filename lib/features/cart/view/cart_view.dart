@@ -19,39 +19,45 @@ class CartView extends StatelessWidget {
         title: const Text("CART"),
         centerTitle: true,
       ),
-      bottomSheet: BottomAppBar(
-        height: 110,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      bottomSheet: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) {
+          return BottomAppBar(
+            height: 110,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "TOTAL",
-                    style: theme.textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "TOTAL",
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "₱ ${state.products.fold(0.0, (sum, product) => sum + product.price)}",
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: ColorTheme.primaryColor,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "₱ 660",
-                    style: theme.textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: ColorTheme.primaryColor,
-                    ),
+                  const SizedBox(height: 10.0),
+                  PrimaryButton(
+                    onPressed: () => context.pushNamed(OrderPage.route, extra: {
+                      "products": state.products,
+                    }),
+                    label: "Checkout",
                   ),
                 ],
               ),
-              const SizedBox(height: 10.0),
-              PrimaryButton(
-                onPressed: () => context.pushNamed(OrderPage.route),
-                label: "Checkout",
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/contact_page.dart';
 import 'package:pocofino/features/order/view/location_page.dart';
 import 'package:pocofino/features/order/view/pick_up_time_page.dart';
@@ -8,10 +10,15 @@ import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/utils/strings/images.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/fields/primary_text_field.dart';
-import 'package:pocofino/widgets/tiles/order_tile.dart';
+import 'package:product_repository/product_repository.dart';
 
 class OrderView extends StatefulWidget {
-  const OrderView({super.key});
+  const OrderView({
+    required this.products,
+    super.key,
+  });
+
+  final List<Product> products;
 
   @override
   State<OrderView> createState() => _OrderViewState();
@@ -267,7 +274,9 @@ class _OrderViewState extends State<OrderView> {
                             ),
                             const SizedBox(height: 10.0),
                             PrimaryButton(
-                              onPressed: () {},
+                              onPressed: () => context
+                                  .read<OrderBloc>()
+                                  .add(OrderPlaceRequested(widget.products)),
                               label: "Place Order",
                             ),
                           ],
