@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auth_repository/auth_repository.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
@@ -19,6 +18,7 @@ import 'package:pocofino/features/order/view/pick_up_time_page.dart';
 import 'package:pocofino/features/product/view/product_page.dart';
 import 'package:pocofino/features/wallet/view/wallet_page.dart';
 import 'package:pocofino/layout/home_page.dart';
+import 'package:product_repository/product_repository.dart';
 
 class AppRouter {
   final AuthRepository authRepository;
@@ -53,11 +53,12 @@ class AppRouter {
             builder: (context, state) => const MenuPage(),
             routes: [
               GoRoute(
-                path: ":category",
+                path: "category",
                 name: CategoryPage.route,
                 builder: (context, state) => CategoryPage(
-                  category: state.pathParameters["category"]!,
+                  category: (state.extra as Map)["category"]! as Category,
                   menuBloc: (state.extra as Map)["menuBloc"],
+                  cartBloc: (state.extra as Map)["cartBloc"],
                 ),
               )
             ],
@@ -107,6 +108,7 @@ class AppRouter {
             name: OrderPage.route,
             builder: (context, state) => OrderPage(
               products: (state.extra as Map)["products"]!,
+              orderBloc: (state.extra as Map)["orderBloc"],
             ),
           ),
           GoRoute(

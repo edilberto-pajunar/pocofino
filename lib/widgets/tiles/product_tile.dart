@@ -10,9 +10,11 @@ class ProductTile extends StatelessWidget {
   const ProductTile({
     super.key,
     required this.product,
+    required this.cartBloc,
   });
 
   final Product product;
+  final CartBloc cartBloc;
 
   @override
   Widget build(BuildContext context) {

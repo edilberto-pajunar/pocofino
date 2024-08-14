@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/app/view/bloc/app_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/contact_page.dart';
 import 'package:pocofino/features/order/view/location_page.dart';
@@ -273,11 +274,21 @@ class _OrderViewState extends State<OrderView> {
                               ],
                             ),
                             const SizedBox(height: 10.0),
-                            PrimaryButton(
-                              onPressed: () => context
-                                  .read<OrderBloc>()
-                                  .add(OrderPlaceRequested(widget.products)),
-                              label: "Place Order",
+                            BlocListener<OrderBloc, OrderState>(
+                              listener: (context, state) {
+                                if (state.status == OrderStatus.success) {
+                                  context
+                                    ..pop()
+                                    ..read<AppBloc>()
+                                        .add(const AppHomeIndexChanged(1));
+                                }
+                              },
+                              child: PrimaryButton(
+                                onPressed: () => context
+                                    .read<OrderBloc>()
+                                    .add(OrderPlaceRequested(widget.products)),
+                                label: "Place Order",
+                              ),
                             ),
                           ],
                         ),

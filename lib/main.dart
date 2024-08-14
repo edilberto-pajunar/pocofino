@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:activity_repository/activity_repository.dart';
 import 'package:api_repository/api_repository.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:database_api/database_api.dart';
@@ -40,6 +41,7 @@ void runAppIn() {
   final databaseApi = DatabaseApi.instance..clearCachedData();
 
   runApp(App(
+    activityRepository: ActivityRepository(),
     authRepository: AuthRepository(
       firebaseAuth: FirebaseAuth.instance,
       googleSignIn: GoogleSignIn(),

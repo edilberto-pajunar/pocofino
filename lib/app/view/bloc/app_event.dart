@@ -11,6 +11,12 @@ final class AppInitRequested extends AppEvent {}
 
 final class AppInitAuthRequested extends AppEvent {}
 
+final class AppHomeIndexChanged extends AppEvent {
+  final int index;
+
+  const AppHomeIndexChanged(this.index);
+}
+
 final class AppFailed extends AppEvent {
   final String error;
 

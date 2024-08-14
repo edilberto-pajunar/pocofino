@@ -14,6 +14,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         super(const AppState()) {
     on<AppInitRequested>(_onInitRequested);
     on<AppInitAuthRequested>(_onInitAuthRequested);
+    on<AppHomeIndexChanged>(_onHomeIndexChanged);
     on<AppFailed>(_onAppFailed);
   }
 
@@ -40,6 +41,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     } catch (e) {
       emit(state.copyWith(status: AppStatus.unathenticated));
     }
+  }
+
+  void _onHomeIndexChanged(
+    AppHomeIndexChanged event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(
+      tabIndex: event.index,
+    ));
   }
 
   void _onAppFailed(

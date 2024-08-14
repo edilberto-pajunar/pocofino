@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
+import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
@@ -50,6 +51,7 @@ class CartView extends StatelessWidget {
                   PrimaryButton(
                     onPressed: () => context.pushNamed(OrderPage.route, extra: {
                       "products": state.products,
+                      "orderBloc": context.read<OrderBloc>(),
                     }),
                     label: "Checkout",
                   ),

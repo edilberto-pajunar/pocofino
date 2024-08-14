@@ -12,11 +12,8 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MenuBloc(
-        productRepository: context.read<ProductRepository>(),
-        token: context.read<AppBloc>().state.token!,
-      )..add(MenuInitRequested()),
+    return BlocProvider.value(
+      value: context.read<MenuBloc>(),
       child: BlocListener<MenuBloc, MenuState>(
         listener: (context, state) {
           if (state.status == MenuStatus.failure) {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/utils/strings/images.dart';
-import 'package:pocofino/widgets/tiles/category_tile.dart';
+import 'package:pocofino/features/menu/widget/category_tile.dart';
 import 'package:pocofino/widgets/tiles/product_tile.dart';
 import 'package:product_repository/product_repository.dart';
 
@@ -141,18 +142,24 @@ class _MenuViewState extends State<MenuView> {
                       children: [
                         CategoryTile(
                           image: PngImages.hotDrink,
-                          index: "1",
-                          category: "Hot Drink",
+                          category: Category(
+                            id: 1,
+                            categoryName: "Hot Drink",
+                          ),
                         ),
                         CategoryTile(
                           image: PngImages.coldDrink,
-                          index: "2",
-                          category: "Cold Drink",
+                          category: Category(
+                            id: 2,
+                            categoryName: "Cold Drink",
+                          ),
                         ),
                         CategoryTile(
                           image: PngImages.savory,
-                          index: "3",
-                          category: "Savory",
+                          category: Category(
+                            id: 3,
+                            categoryName: "Savory",
+                          ),
                         ),
                       ],
                     ),
@@ -181,7 +188,10 @@ class _MenuViewState extends State<MenuView> {
                             ),
                             itemBuilder: (context, index) {
                               final product = products[index];
-                              return ProductTile(product: product);
+                              return ProductTile(
+                                product: product,
+                                cartBloc: context.read<CartBloc>(),
+                              );
                             },
                           ),
                         );

@@ -46,7 +46,7 @@ class ProductRepository {
       if (response.statusCode == 200) {
         log("Response: ${response.body}");
 
-        final products = (jsonDecode(response.body) as List);
+        final products = (jsonDecode(response.body)["data"] as List);
         return products.map((product) {
           return Product.fromJson(product);
         }).toList();
@@ -57,11 +57,17 @@ class ProductRepository {
     }
   }
 
-  Future<List<Product>> getCategoryProducts(String category) async {
+  Future<List<Product>> getCategoryProducts(
+    String category,
+    String token,
+  ) async {
     try {
       final uri =
           Uri.http(ApiRepository.baseUrl, "/api/products/categories/$category");
-      final response = await http.get(uri, headers: ApiRepository.headers);
+      final response = await http.get(uri, headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+      });
 
       if (response.statusCode == 200) {
         log("Response: ${response.body}");
@@ -108,6 +114,31 @@ class ProductRepository {
         return message;
       }
       throw Exception(" Error adding orders: ${response.body}");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Order>> getOrders(String token) async {
+    try {
+      final uri = Uri.http(ApiRepository.baseUrl, "/api/orders");
+      final response = await http.get(
+        uri,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+
+      if (response.statusCode == 200) {
+        log("Response: ${response.body}");
+
+        final orders = (jsonDecode(response.body)["data"] as List);
+        return orders.map((order) {
+          return Order.fromJson(order);
+        }).toList();
+      }
+      throw Exception("Error getting orders: ${response.body}");
     } catch (e) {
       rethrow;
     }

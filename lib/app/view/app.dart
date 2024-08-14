@@ -1,3 +1,4 @@
+import 'package:activity_repository/activity_repository.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:database_api/database_api.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,14 @@ import 'package:product_repository/product_repository.dart';
 
 class App extends StatefulWidget {
   const App({
+    required this.activityRepository,
     required this.authRepository,
     required this.databaseApi,
     required this.productRepository,
     super.key,
   });
 
+  final ActivityRepository activityRepository;
   final AuthRepository authRepository;
   final DatabaseApi databaseApi;
   final ProductRepository productRepository;
@@ -33,6 +36,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider.value(value: widget.activityRepository),
         RepositoryProvider.value(value: widget.authRepository),
         RepositoryProvider.value(value: widget.databaseApi),
         RepositoryProvider.value(value: widget.productRepository),

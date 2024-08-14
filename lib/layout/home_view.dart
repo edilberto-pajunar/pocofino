@@ -57,29 +57,32 @@ class _HomeViewState extends State<HomeView> {
     ),
   ];
 
-  int tabIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     final status = context.watch<AppBloc>().state.status;
 
     return status != AppStatus.authenticated
         ? const LoginPage()
-        : BlocListener<AppBloc, AppState>(
-            listener: (context, state) {},
-            child: Scaffold(
-              bottomNavigationBar: NavigationBar(
-                selectedIndex: tabIndex,
-                onDestinationSelected: (selectedIndex) =>
-                    setState(() => tabIndex = selectedIndex),
-                destinations: homeTabWidgetRecords
-                    .map((tabRecord) => tabRecord.tabBarItem)
-                    .toList(),
-              ),
-              body: homeTabWidgetRecords
-                  .map((tabRecord) => tabRecord.tabView)
-                  .toList()[tabIndex],
-            ),
+        : BlocBuilder<AppBloc, AppState>(
+            builder: (context, state) {
+              return PopScope(
+                canPop: false,
+                child: Scaffold(
+                  bottomNavigationBar: NavigationBar(
+                    selectedIndex: state.tabIndex,
+                    onDestinationSelected: (selectedIndex) => context
+                        .read<AppBloc>()
+                        .add(AppHomeIndexChanged(selectedIndex)),
+                    destinations: homeTabWidgetRecords
+                        .map((tabRecord) => tabRecord.tabBarItem)
+                        .toList(),
+                  ),
+                  body: homeTabWidgetRecords
+                      .map((tabRecord) => tabRecord.tabView)
+                      .toList()[state.tabIndex],
+                ),
+              );
+            },
           );
   }
 }

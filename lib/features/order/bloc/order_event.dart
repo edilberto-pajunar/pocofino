@@ -7,6 +7,10 @@ final class OrderEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class OrderInitRequested extends OrderEvent {}
+
+final class OrderInitOrdersRequested extends OrderEvent {}
+
 final class OrderPlaceRequested extends OrderEvent {
   final List<Product> products;
 

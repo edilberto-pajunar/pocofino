@@ -54,6 +54,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
       emit(state.copyWith(status: MenuStatus.loading));
       final products = await _productRepository.getCategoryProducts(
         event.category,
+        _token,
       );
       emit(state.copyWith(
         status: MenuStatus.success,

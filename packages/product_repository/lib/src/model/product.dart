@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:product_repository/src/model/category.dart';
 
 part 'product.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Product extends Equatable {
   final int id;
   final String title;
@@ -12,7 +13,7 @@ class Product extends Equatable {
   // final String img;
   final bool popular;
   final int quantity;
-  // final String category;
+  final Category category;
   // final List<double> ounces;
 
   const Product({
@@ -23,7 +24,7 @@ class Product extends Equatable {
     // required this.img,
     this.popular = false,
     this.quantity = 0,
-    // required this.category,
+    required this.category,
     // required this.ounces,
   });
 
@@ -31,6 +32,10 @@ class Product extends Equatable {
       _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
+
+  double totalPrice() {
+    return price * quantity;
+  }
 
   Product copyWith({
     int? id,
@@ -40,7 +45,7 @@ class Product extends Equatable {
     // String? img,
     bool? popular,
     int? quantity,
-    // String? category,
+    Category? category,
     // List<double>? ounces,
   }) {
     return Product(
@@ -51,7 +56,7 @@ class Product extends Equatable {
       // img: img ?? this.img,
       popular: popular ?? this.popular,
       quantity: quantity ?? this.quantity,
-      // category: category ?? this.category,
+      category: category ?? this.category,
       // ounces: ounces ?? this.ounces,
     );
   }
@@ -65,59 +70,60 @@ class Product extends Equatable {
         // img,
         popular,
         quantity,
+        category,
         // ounces,
       ];
 
-  static final List<Product> products = [
-    const Product(
-      id: 1,
-      title: 'Latte',
-      description: 'A smooth and creamy coffee with steamed milk.',
-      price: 3,
-      // img: 'https://example.com/latte.jpg',
-      popular: true,
-      // category: 'hot',
-      // ounces: [6, 16],
-    ),
-    const Product(
-      id: 2,
-      title: 'Iced Coffee',
-      description: 'Chilled coffee served over ice.',
-      price: 2,
-      // img: 'https://example.com/iced_coffee.jpg',
-      popular: true,
-      // category: 'cold',
-      // ounces: [6, 16],
-    ),
-    const Product(
-      id: 3,
-      title: 'Cappuccino',
-      description: 'Espresso with steamed milk and foam.',
-      price: 3,
-      // img: 'https://example.com/cappuccino.jpg',
-      popular: false,
-      // category: 'hot',
-      // ounces: [6, 16],
-    ),
-    const Product(
-      id: 4,
-      title: 'Muffin',
-      description: 'A soft and fluffy baked good, perfect with coffee.',
-      price: 1,
-      // img: 'https://example.com/muffin.jpg',
-      popular: true,
-      // category: 'savories',
-      // ounces: [6, 16],
-    ),
-    const Product(
-      id: 5,
-      title: 'Smoothie',
-      description: 'A refreshing blend of fruits and yogurt.',
-      price: 4,
-      // img: 'https://example.com/smoothie.jpg',
-      popular: true,
-      // category: 'cold',
-      // ounces: [6, 16],
-    ),
-  ];
+  // static final List<Product> products = [
+  //   const Product(
+  //     id: 1,
+  //     title: 'Latte',
+  //     description: 'A smooth and creamy coffee with steamed milk.',
+  //     price: 3,
+  //     // img: 'https://example.com/latte.jpg',
+  //     popular: true,
+  //     // category: 'hot',
+  //     // ounces: [6, 16],
+  //   ),
+  //   const Product(
+  //     id: 2,
+  //     title: 'Iced Coffee',
+  //     description: 'Chilled coffee served over ice.',
+  //     price: 2,
+  //     // img: 'https://example.com/iced_coffee.jpg',
+  //     popular: true,
+  //     // category: 'cold',
+  //     // ounces: [6, 16],
+  //   ),
+  //   const Product(
+  //     id: 3,
+  //     title: 'Cappuccino',
+  //     description: 'Espresso with steamed milk and foam.',
+  //     price: 3,
+  //     // img: 'https://example.com/cappuccino.jpg',
+  //     popular: false,
+  //     // category: 'hot',
+  //     // ounces: [6, 16],
+  //   ),
+  //   const Product(
+  //     id: 4,
+  //     title: 'Muffin',
+  //     description: 'A soft and fluffy baked good, perfect with coffee.',
+  //     price: 1,
+  //     // img: 'https://example.com/muffin.jpg',
+  //     popular: true,
+  //     // category: 'savories',
+  //     // ounces: [6, 16],
+  //   ),
+  //   const Product(
+  //     id: 5,
+  //     title: 'Smoothie',
+  //     description: 'A refreshing blend of fruits and yogurt.',
+  //     price: 4,
+  //     // img: 'https://example.com/smoothie.jpg',
+  //     popular: true,
+  //     // category: 'cold',
+  //     // ounces: [6, 16],
+  //   ),
+  // ];
 }

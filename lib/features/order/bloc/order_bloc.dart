@@ -15,8 +15,30 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   })  : _productRepository = productRepository,
         _token = token,
         super(const OrderState()) {
+    on<OrderInitRequested>(_onInitRequested);
+    on<OrderInitOrdersRequested>(_onInitOrderRequested);
     on<OrderPlaceRequested>(_onPlaceRequested);
     on<OrderFailed>(_onOrderFailed);
+  }
+
+  void _onInitRequested(
+    OrderInitRequested event,
+    Emitter<OrderState> emit,
+  ) {
+    add(OrderInitOrdersRequested());
+  }
+
+  void _onInitOrderRequested(
+    OrderInitOrdersRequested event,
+    Emitter<OrderState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(status: OrderStatus.loading));
+      final orders = await _productRepository.getOrders(_token);
+      emit(state.copyWith(status: OrderStatus.success, orders: orders));
+    } catch (e) {
+      add(OrderFailed(e.toString()));
+    }
   }
 
   void _onPlaceRequested(
