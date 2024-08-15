@@ -7,6 +7,20 @@ final class ProductEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class ProductInitRequested extends ProductEvent {
+  final int? quantity;
+
+  const ProductInitRequested({
+    this.quantity,
+  });
+}
+
+final class ProductInitQuantityRequested extends ProductEvent {
+  final int quantity;
+
+  const ProductInitQuantityRequested(this.quantity);
+}
+
 final class ProductQuantityIncremented extends ProductEvent {}
 
 final class ProductQuantityDecremented extends ProductEvent {}

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pocofino/extensions/date_time_format_extensions.dart';
 import 'package:pocofino/features/activity/bloc/activity_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
-import 'package:pocofino/widgets/tiles/order_tile.dart';
+import 'package:pocofino/features/cart/widget/order_tile.dart';
 
 class OngoingView extends StatelessWidget {
   const OngoingView({super.key});

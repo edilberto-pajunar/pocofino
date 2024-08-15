@@ -10,10 +10,12 @@ import 'package:product_repository/product_repository.dart';
 class ProductView extends StatelessWidget {
   const ProductView({
     required this.product,
+    required this.isEdit,
     super.key,
   });
 
   final Product product;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,19 @@ class ProductView extends StatelessWidget {
                 return PrimaryButton(
                   onPressed: quantity == 0
                       ? null
-                      : () {
-                          context
+                      : isEdit
+                          ? () => context
+                            ..read<CartBloc>().add(CartProductEdited(
+                                product.copyWith(quantity: quantity)))
+                            ..pop()
+                          : () => context
                             ..read<CartBloc>()
                                 .add(CartProductAdded(product.copyWith(
                               quantity: quantity,
                             )))
-                            ..pop();
-                        },
-                  label: "Add to Cart | ${product.price} PHP",
+                            ..pop(),
+                  label:
+                      "${isEdit ? "Save" : "Add"} to Cart | ${product.price} PHP",
                 );
               },
             ),

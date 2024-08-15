@@ -12,3 +12,15 @@ final class CartProductAdded extends CartEvent {
 
   const CartProductAdded(this.product);
 }
+
+final class CartProductEdited extends CartEvent {
+  final Product product;
+
+  const CartProductEdited(this.product);
+}
+
+final class CartProductRemoved extends CartEvent {
+  final Product product;
+
+  const CartProductRemoved(this.product);
+}

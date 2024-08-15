@@ -69,6 +69,7 @@ class AppRouter {
             builder: (context, state) => ProductPage(
               product: (state.extra as Map)["product"]!,
               cartBloc: (state.extra as Map)["cartBloc"],
+              isEdit: (state.extra as Map)["isEdit"],
             ),
           ),
           GoRoute(

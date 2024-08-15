@@ -6,7 +6,7 @@ import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
-import 'package:pocofino/widgets/tiles/order_tile.dart';
+import 'package:pocofino/features/cart/widget/order_tile.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -39,7 +39,7 @@ class CartView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "₱ ${state.products.fold(0.0, (sum, product) => sum + product.price)}",
+                        "₱ ${state.products.fold(0.0, (sum, product) => sum + product.totalPrice()).toStringAsFixed(2)}",
                         style: theme.textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: ColorTheme.primaryColor,
@@ -49,10 +49,12 @@ class CartView extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   PrimaryButton(
-                    onPressed: () => context.pushNamed(OrderPage.route, extra: {
-                      "products": state.products,
-                      "orderBloc": context.read<OrderBloc>(),
-                    }),
+                    onPressed: state.products.isEmpty
+                        ? null
+                        : () => context.pushNamed(OrderPage.route, extra: {
+                              "products": state.products,
+                              "orderBloc": context.read<OrderBloc>(),
+                            }),
                     label: "Checkout",
                   ),
                 ],
@@ -84,7 +86,6 @@ class CartView extends StatelessWidget {
                       final product = state.products[index];
                       return OrderTile(
                         product: product,
-                        canEdit: true,
                       );
                     },
                   ),

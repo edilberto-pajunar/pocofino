@@ -33,5 +33,6 @@ class AppTheme {
       color: ColorTheme.greyColor,
     ),
     fontFamily: "Avenir",
+    fontFamilyFallback: const ['Roboto', 'sans-serif'],
   );
 }

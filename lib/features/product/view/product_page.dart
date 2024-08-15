@@ -10,11 +10,14 @@ class ProductPage extends StatelessWidget {
   const ProductPage({
     required this.product,
     required this.cartBloc,
+    this.isEdit = false,
     super.key,
   });
 
   final Product product;
   final CartBloc cartBloc;
+
+  final bool? isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +27,15 @@ class ProductPage extends StatelessWidget {
           value: cartBloc,
         ),
         BlocProvider(
-          create: (context) => ProductBloc(),
+          create: (context) => ProductBloc()
+            ..add(ProductInitRequested(
+              quantity: product.quantity,
+            )),
         ),
       ],
       child: ProductView(
         product: product,
+        isEdit: isEdit ?? false,
       ),
     );
   }
