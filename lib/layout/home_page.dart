@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location_repository/location_repository.dart';
 import 'package:pocofino/app/view/bloc/app_bloc.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
@@ -33,8 +34,9 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(
           create: (context) => OrderBloc(
             productRepository: context.read<ProductRepository>(),
+            locationRepository: context.read<LocationRepository>(),
             token: token,
-          ),
+          )..add(OrderInitRequested()),
         ),
         BlocProvider(
           create: (context) => MenuBloc(

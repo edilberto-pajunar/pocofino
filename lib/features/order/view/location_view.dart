@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:location_repository/location_repository.dart';
+import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 
 class LocationView extends StatefulWidget {
@@ -64,47 +67,57 @@ class _LocationViewState extends State<LocationView> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 3,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "CAFEE POCOFINO - BGC",
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Text(
-                          "30ths Street corner Lane A, BGC, Taguig City"),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          BlocSelector<OrderBloc, OrderState, List<Store>>(
+            selector: (state) => state.stores,
+            builder: (context, stores) {
+              return Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: stores.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    final store = stores[index];
+
+                    final openingHour = store.formattedTime(store.openingHours);
+                    final closingHour = store.formattedTime(store.closingHours);
+
+                    return Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Open 24 Hours",
-                            style: theme.textTheme.labelMedium!.copyWith(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.normal,
+                            store.name,
+                            style: theme.textTheme.bodyLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            "11 miles",
-                            style: theme.textTheme.labelLarge,
-                          ),
+                          Text(store.address),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                store.open24Hours!
+                                    ? "Open 24 Hours"
+                                    : "$openingHour - $closingHour",
+                                style: theme.textTheme.labelMedium!.copyWith(
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                "11 miles",
+                                style: theme.textTheme.labelLarge,
+                              ),
+                            ],
+                          )
                         ],
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),

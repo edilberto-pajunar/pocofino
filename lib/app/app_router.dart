@@ -95,7 +95,9 @@ class AppRouter {
               GoRoute(
                 path: "location",
                 name: LocationPage.route,
-                builder: (context, state) => const LocationPage(),
+                builder: (context, state) => LocationPage(
+                  orderBloc: (state.extra as Map)["orderBloc"],
+                ),
               ),
               GoRoute(
                 path: "pick_up_time",

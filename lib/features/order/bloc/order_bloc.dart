@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:location_repository/location_repository.dart';
 import 'package:product_repository/product_repository.dart';
 
 part 'order_event.dart';
@@ -7,16 +8,19 @@ part 'order_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final ProductRepository _productRepository;
+  final LocationRepository _locationRepository;
   final String _token;
 
   OrderBloc({
     required ProductRepository productRepository,
+    required LocationRepository locationRepository,
     required String token,
   })  : _productRepository = productRepository,
+        _locationRepository = locationRepository,
         _token = token,
         super(const OrderState()) {
     on<OrderInitRequested>(_onInitRequested);
-    on<OrderInitOrdersRequested>(_onInitOrderRequested);
+    on<OrderInitStoresRequested>(_onInitStoresRequested);
     on<OrderPlaceRequested>(_onPlaceRequested);
     on<OrderFailed>(_onOrderFailed);
   }
@@ -25,17 +29,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     OrderInitRequested event,
     Emitter<OrderState> emit,
   ) {
-    add(OrderInitOrdersRequested());
+    add(OrderInitStoresRequested());
   }
 
-  void _onInitOrderRequested(
-    OrderInitOrdersRequested event,
+  void _onInitStoresRequested(
+    OrderInitStoresRequested event,
     Emitter<OrderState> emit,
   ) async {
     try {
       emit(state.copyWith(status: OrderStatus.loading));
-      final orders = await _productRepository.getOrders(_token);
-      emit(state.copyWith(status: OrderStatus.success, orders: orders));
+      final stores = await _locationRepository.getAllStores(_token);
+      emit(state.copyWith(status: OrderStatus.success, stores: stores));
     } catch (e) {
       add(OrderFailed(e.toString()));
     }
@@ -46,9 +50,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     Emitter<OrderState> emit,
   ) async {
     try {
-      emit(state.copyWith(status: OrderStatus.loading));
+      emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.loading));
+
       await _productRepository.placeOrder(event.products, _token);
-      emit(state.copyWith(status: OrderStatus.success));
+      emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.success));
     } catch (e) {
       add(OrderFailed(e.toString()));
     }

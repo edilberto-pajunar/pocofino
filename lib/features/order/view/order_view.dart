@@ -88,7 +88,9 @@ class _OrderViewState extends State<OrderView> {
                             ),
                             ListTile(
                               onTap: () =>
-                                  context.pushNamed(LocationPage.route),
+                                  context.pushNamed(LocationPage.route, extra: {
+                                "orderBloc": context.read<OrderBloc>(),
+                              }),
                               leading: Icon(
                                 Icons.pin_drop_sharp,
                                 color: ColorTheme.primaryColor,
@@ -275,8 +277,12 @@ class _OrderViewState extends State<OrderView> {
                             ),
                             const SizedBox(height: 10.0),
                             BlocListener<OrderBloc, OrderState>(
+                              listenWhen: (prev, curr) =>
+                                  prev.orderPlaceStatus !=
+                                  curr.orderPlaceStatus,
                               listener: (context, state) {
-                                if (state.status == OrderStatus.success) {
+                                if (state.orderPlaceStatus ==
+                                    OrderPlaceStatus.success) {
                                   context
                                     ..pop()
                                     ..read<AppBloc>()
