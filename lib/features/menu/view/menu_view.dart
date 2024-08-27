@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pocofino/app/view/bloc/app_bloc.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/utils/strings/images.dart';
 import 'package:pocofino/features/menu/widget/category_tile.dart';
+import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/tiles/product_tile.dart';
 import 'package:product_repository/product_repository.dart';
 
@@ -24,6 +26,50 @@ class _MenuViewState extends State<MenuView> {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
+      floatingActionButton: BlocSelector<CartBloc, CartState, List<Product>>(
+        selector: (state) => state.products,
+        builder: (context, addedProducts) {
+          return Visibility(
+            visible: addedProducts.isNotEmpty,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                ),
+                onPressed: () {
+                  context.read<AppBloc>().add(const AppHomeIndexChanged(3));
+                },
+                child: SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Text(
+                        "Basket | ${addedProducts.length} item",
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          color: Colors.white,
+                        ),
+                      )),
+                      Text(
+                        "${addedProducts.fold(0.0, (previousValue, element) => previousValue + element.totalPrice())}",
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

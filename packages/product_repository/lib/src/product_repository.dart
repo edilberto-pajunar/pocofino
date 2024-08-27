@@ -143,4 +143,31 @@ class ProductRepository {
       rethrow;
     }
   }
+
+  Future<String> generateQR(String token, String amount) async {
+    try {
+      final uri = Uri.http(ApiRepository.baseUrl, "/api/payment/generate_qr");
+      final response = await http.post(
+        uri,
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer $token"
+        },
+        body: {
+          "amount": amount,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        log("Response: ${response.body}");
+
+        final qrCode =
+            (jsonDecode(response.body)["data"]["redirectUrl"] as String);
+        return qrCode;
+      }
+      throw Exception("Error fetching qr code: ${response.body}");
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

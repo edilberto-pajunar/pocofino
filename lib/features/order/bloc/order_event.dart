@@ -13,8 +13,9 @@ final class OrderInitStoresRequested extends OrderEvent {}
 
 final class OrderPlaceRequested extends OrderEvent {
   final List<Product> products;
+  final double total;
 
-  const OrderPlaceRequested(this.products);
+  const OrderPlaceRequested(this.products, this.total);
 }
 
 final class OrderFailed extends OrderEvent {

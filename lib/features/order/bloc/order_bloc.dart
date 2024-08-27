@@ -52,8 +52,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     try {
       emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.loading));
 
-      await _productRepository.placeOrder(event.products, _token);
-      emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.success));
+      final paymentUrl =
+          await _productRepository.generateQR(_token, event.total.toString());
+      emit(state.copyWith(
+          paymentUrl: paymentUrl, orderPlaceStatus: OrderPlaceStatus.success));
+
+      // await _productRepository.placeOrder(event.products, _token);
+      // await _productRepository
+      //     .emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.success));
     } catch (e) {
       add(OrderFailed(e.toString()));
     }

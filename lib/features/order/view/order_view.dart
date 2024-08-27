@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/contact_page.dart';
 import 'package:pocofino/features/order/view/location_page.dart';
@@ -289,11 +290,24 @@ class _OrderViewState extends State<OrderView> {
                                         .add(const AppHomeIndexChanged(1));
                                 }
                               },
-                              child: PrimaryButton(
-                                onPressed: () => context
-                                    .read<OrderBloc>()
-                                    .add(OrderPlaceRequested(widget.products)),
-                                label: "Place Order",
+                              child: BlocSelector<CartBloc, CartState,
+                                  List<Product>>(
+                                selector: (state) => state.products,
+                                builder: (context, addedProducts) {
+                                  final totalPrice = addedProducts.fold(
+                                      0.0,
+                                      (sum, product) =>
+                                          sum + product.totalPrice());
+                                  return PrimaryButton(
+                                    onPressed: () => context
+                                        .read<OrderBloc>()
+                                        .add(OrderPlaceRequested(
+                                          widget.products,
+                                          totalPrice,
+                                        )),
+                                    label: "Place Order",
+                                  );
+                                },
                               ),
                             ),
                           ],

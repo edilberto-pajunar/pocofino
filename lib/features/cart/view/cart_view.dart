@@ -7,6 +7,7 @@ import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/features/cart/widget/order_tile.dart';
+import 'package:pocofino/widgets/fields/primary_text_field.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -22,13 +23,22 @@ class CartView extends StatelessWidget {
       ),
       bottomSheet: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
+          final totalPrice = state.products
+              .fold(0.0, (sum, product) => sum + product.totalPrice())
+              .toStringAsFixed(2);
+
           return BottomAppBar(
-            height: 110,
+            height: 190,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const PrimaryTextField(
+                    name: "voucher",
+                    label: "Apply a voucher",
+                    hintText: "POCOFINO",
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -39,7 +49,7 @@ class CartView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "₱ ${state.products.fold(0.0, (sum, product) => sum + product.totalPrice()).toStringAsFixed(2)}",
+                        "₱ $totalPrice",
                         style: theme.textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                           color: ColorTheme.primaryColor,
@@ -54,6 +64,7 @@ class CartView extends StatelessWidget {
                         : () => context.pushNamed(OrderPage.route, extra: {
                               "products": state.products,
                               "orderBloc": context.read<OrderBloc>(),
+                              "cartBloc": context.read<CartBloc>(),
                             }),
                     label: "Checkout",
                   ),
@@ -89,7 +100,6 @@ class CartView extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(height: 24.0),
                 ],
               ),
             ),

@@ -10,19 +10,17 @@ class OngoingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<ActivityBloc, ActivityState>(
-        builder: (context, state) {
-          return state.orders.isEmpty
-              ? const Center(
-                  child: Text(
-                    "New to our coffee? Order now and stay updated on your order's status here.",
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              : _buildOrders(context, state);
-        },
-      ),
+    return BlocBuilder<ActivityBloc, ActivityState>(
+      builder: (context, state) {
+        return state.orders.isEmpty
+            ? const Center(
+                child: Text(
+                  "New to our coffee? Order now and stay updated on your order's status here.",
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : _buildOrders(context, state);
+      },
     );
   }
 

@@ -4,6 +4,9 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
+import 'package:pocofino/features/account/view/app_settings_page.dart';
+import 'package:pocofino/features/account/view/edit_account_page.dart';
+import 'package:pocofino/features/account/view/help_center_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
 import 'package:pocofino/features/admin/features/home/admin_home_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
@@ -112,12 +115,30 @@ class AppRouter {
             builder: (context, state) => OrderPage(
               products: (state.extra as Map)["products"]!,
               orderBloc: (state.extra as Map)["orderBloc"],
+              cartBloc: (state.extra as Map)["cartBloc"],
             ),
           ),
           GoRoute(
             path: "account",
             name: AccountPage.route,
             builder: (context, state) => const AccountPage(),
+            routes: [
+              GoRoute(
+                path: "edit",
+                name: EditAccountPage.route,
+                builder: (context, state) => const EditAccountPage(),
+              ),
+              GoRoute(
+                path: "app_settings",
+                name: AppSettingsPage.route,
+                builder: (context, state) => const AppSettingsPage(),
+              ),
+              GoRoute(
+                path: "help_center",
+                name: HelpCenterPage.route,
+                builder: (context, state) => const HelpCenterPage(),
+              ),
+            ],
           ),
 
           /// [Admin]
