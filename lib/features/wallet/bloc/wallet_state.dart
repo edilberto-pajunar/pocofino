@@ -19,9 +19,8 @@ class WalletState extends Equatable {
   WalletState copyWith({
     WalletStatus? status,
     PaymentStatus? paymentStatus,
+    String? paymentUrl,
     double? amount,
-=======
->>>>>>> a12190c66b6da93d985436c6910d1071ff93728e
   }) {
     return WalletState(
       status: status ?? this.status,
