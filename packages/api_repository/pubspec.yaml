@@ -1,15 +1,20 @@
 name: api_repository
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+publish_to: none
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
+  auth_repository:
+    path: ../auth_repository
   flutter:
     sdk: flutter
+  flutter_secure_storage: ^9.2.2
+  http: ^1.2.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -20,7 +25,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+# flutter:
 
   # To add assets to your package, add an assets section, like this:
   # assets:

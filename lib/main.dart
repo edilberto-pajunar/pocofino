@@ -14,6 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:location_repository/location_repository.dart';
+import 'package:payment_repository/payment_repository.dart';
 import 'package:pocofino/app/app_bloc_observer.dart';
 import 'package:pocofino/app/view/app.dart';
 import 'package:pocofino/firebase_options.dart';
@@ -51,6 +52,7 @@ void runAppIn() {
     ),
     databaseApi: databaseApi,
     locationRepository: LocationRepository(),
+    paymentRepository: PaymentRepository(),
     productRepository: ProductRepository(
       databaseApi: databaseApi,
     ),

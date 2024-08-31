@@ -19,7 +19,7 @@ class AccountView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: InkWell(
-              onTap: () => context.goNamed(EditAccountPage.route),
+              onTap: () => context.pushNamed(EditAccountPage.route),
               borderRadius: BorderRadius.circular(12.0),
               child: InkWell(
                 radius: 48.0,
@@ -109,7 +109,7 @@ class AccountView extends StatelessWidget {
                     Icons.keyboard_arrow_right_rounded,
                     color: ColorTheme.primaryColor,
                   ),
-                  onTap: () => context.goNamed(AppSettingsPage.route),
+                  onTap: () => context.pushNamed(AppSettingsPage.route),
                 ),
                 ListTile(
                   leading: Icon(
@@ -121,7 +121,7 @@ class AccountView extends StatelessWidget {
                     Icons.keyboard_arrow_right_rounded,
                     color: ColorTheme.primaryColor,
                   ),
-                  onTap: () => context.goNamed(HelpCenterPage.route),
+                  onTap: () => context.pushNamed(HelpCenterPage.route),
                 ),
                 const SizedBox(height: 80),
                 ListTile(
