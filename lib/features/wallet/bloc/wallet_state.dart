@@ -1,10 +1,29 @@
 part of 'wallet_bloc.dart';
 
-sealed class WalletState extends Equatable {
-  const WalletState();
-  
-  @override
-  List<Object> get props => [];
-}
+enum WalletStatus { initial, loading, success, failure }
 
-final class WalletInitial extends WalletState {}
+class WalletState extends Equatable {
+  final WalletStatus status;
+  final String paymentUrl;
+
+  const WalletState({
+    this.status = WalletStatus.initial,
+    this.paymentUrl = "",
+  });
+
+  WalletState copyWith({
+    WalletStatus? status,
+    String? paymentUrl,
+  }) {
+    return WalletState(
+      status: status ?? this.status,
+      paymentUrl: paymentUrl ?? this.paymentUrl,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        status,
+        paymentUrl,
+      ];
+}

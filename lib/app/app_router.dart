@@ -19,6 +19,7 @@ import 'package:pocofino/features/order/view/location_page.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/features/order/view/pick_up_time_page.dart';
 import 'package:pocofino/features/product/view/product_page.dart';
+import 'package:pocofino/features/wallet/view/top_up_page.dart';
 import 'package:pocofino/features/wallet/view/wallet_page.dart';
 import 'package:pocofino/layout/home_page.dart';
 import 'package:product_repository/product_repository.dart';
@@ -84,6 +85,15 @@ class AppRouter {
             path: "wallet",
             name: WalletPage.route,
             builder: (context, state) => const WalletPage(),
+            routes: [
+              GoRoute(
+                path: "top_up",
+                name: TopUpPage.route,
+                builder: (context, state) => TopUpPage(
+                  walletBloc: (state.extra as Map)["walletBloc"],
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: "cart",

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
+import 'package:pocofino/features/wallet/view/top_up_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 
 class WalletView extends StatelessWidget {
@@ -74,8 +78,9 @@ class WalletView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: InkWell(
-                        // onTap: () => context.pushRoute(const TopUpRoute()),
-                        onTap: () {},
+                        onTap: () => context.goNamed(TopUpPage.route, extra: {
+                          "walletBloc": context.read<WalletBloc>(),
+                        }),
                         child: Container(
                           width: size.width * 0.9,
                           height: 55,

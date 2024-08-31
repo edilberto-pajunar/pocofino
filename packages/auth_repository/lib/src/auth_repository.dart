@@ -121,7 +121,6 @@ class AuthRepository {
       final response = await http.post(
         uri,
         body: body,
-        headers: ApiRepository.headers,
       );
 
       if (response.statusCode == 200) {
@@ -148,7 +147,6 @@ class AuthRepository {
       final response = await http.post(
         uri,
         body: body,
-        headers: ApiRepository.headers,
       );
 
       if (response.statusCode == 200) {
