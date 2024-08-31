@@ -35,6 +35,7 @@ class _TopUpViewState extends State<TopUpView> {
       appBar: AppBar(
         title: const Text("Top Up"),
       ),
+<<<<<<< HEAD
       body: FormBuilder(
         key: formKey,
         onChanged: () => formKey.currentState?.save(),
@@ -124,6 +125,74 @@ class _TopUpViewState extends State<TopUpView> {
               ),
             );
           },
+=======
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: FormBuilder(
+          key: formKey,
+          onChanged: () => formKey.currentState?.save(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text("Select Amount PHP"),
+              const SizedBox(height: 12.0),
+              FormBuilderChoiceChip(
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+                name: "amount",
+                alignment: WrapAlignment.center,
+                spacing: 24.0,
+                initialValue: amounts[0],
+                options: amounts
+                    .map((amount) => FormBuilderChipOption(
+                          avatar: Container(),
+                          value: amount,
+                          child: Container(
+                              width: 50,
+                              decoration: const BoxDecoration(),
+                              child: Center(child: Text(amount.toString()))),
+                        ))
+                    .toList(),
+              ),
+              const SizedBox(height: 12.0),
+              const Text("Select payment method"),
+              const SizedBox(height: 12.0),
+              FormBuilderRadioGroup(
+                controlAffinity: ControlAffinity.trailing,
+                name: "payment",
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+                options: [
+                  FormBuilderFieldOption(
+                    value: "maya",
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Image.asset(PngImages.maya),
+                      title: Text(
+                        "Maya",
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              PrimaryButton(
+                onPressed: () {
+                  final value = formKey.currentState?.value;
+                  context
+                      .read<WalletBloc>()
+                      .add(WalletTopUpRequested(value?["amount"]));
+                },
+                label: "TOP UP",
+              ),
+            ],
+          ),
+>>>>>>> a12190c66b6da93d985436c6910d1071ff93728e
         ),
       ),
     );

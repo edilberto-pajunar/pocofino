@@ -16,12 +16,12 @@ class WalletState extends Equatable {
     this.paymentStatus = PaymentStatus.initial,
     this.amount = 0.0,
   });
-
   WalletState copyWith({
     WalletStatus? status,
-    String? paymentUrl,
     PaymentStatus? paymentStatus,
     double? amount,
+=======
+>>>>>>> a12190c66b6da93d985436c6910d1071ff93728e
   }) {
     return WalletState(
       status: status ?? this.status,
