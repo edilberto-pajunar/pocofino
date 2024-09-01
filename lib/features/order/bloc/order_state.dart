@@ -9,6 +9,7 @@ final class OrderState extends Equatable {
   final OrderPlaceStatus orderPlaceStatus;
   final List<Order> orders;
   final List<Store> stores;
+  final String? paymentUrl;
   final String? error;
 
   const OrderState({
@@ -16,6 +17,7 @@ final class OrderState extends Equatable {
     this.orderPlaceStatus = OrderPlaceStatus.idle,
     this.orders = const [],
     this.stores = const [],
+    this.paymentUrl = "",
     this.error = "",
   });
 
@@ -24,6 +26,7 @@ final class OrderState extends Equatable {
     OrderPlaceStatus? orderPlaceStatus,
     List<Order>? orders,
     List<Store>? stores,
+    String? paymentUrl,
     String? error,
   }) {
     return OrderState(
@@ -31,6 +34,7 @@ final class OrderState extends Equatable {
       orderPlaceStatus: orderPlaceStatus ?? this.orderPlaceStatus,
       orders: orders ?? this.orders,
       stores: stores ?? this.stores,
+      paymentUrl: paymentUrl ?? this.paymentUrl,
       error: error ?? this.error,
     );
   }
@@ -41,6 +45,7 @@ final class OrderState extends Equatable {
         orderPlaceStatus,
         orders,
         stores,
+        paymentUrl,
         error,
       ];
 }

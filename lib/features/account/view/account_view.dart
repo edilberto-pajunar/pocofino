@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/account/view/app_settings_page.dart';
+import 'package:pocofino/features/account/view/edit_account_page.dart';
+import 'package:pocofino/features/account/view/help_center_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
+import 'package:pocofino/widgets/buttons/primary_button.dart';
 
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
@@ -14,30 +19,34 @@ class AccountView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: InkWell(
-              onTap: () {},
-              child: Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: ColorTheme.primaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.edit,
-                      size: 15.0,
+              onTap: () => context.pushNamed(EditAccountPage.route),
+              borderRadius: BorderRadius.circular(12.0),
+              child: InkWell(
+                radius: 48.0,
+                child: Container(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
                       color: ColorTheme.primaryColor,
                     ),
-                    Text(
-                      "Edit Profile",
-                      style: theme.textTheme.bodySmall!.copyWith(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.edit,
+                        size: 15.0,
                         color: ColorTheme.primaryColor,
                       ),
-                    ),
-                  ],
+                      Text(
+                        "Edit Profile",
+                        style: theme.textTheme.bodySmall!.copyWith(
+                          color: ColorTheme.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -100,6 +109,7 @@ class AccountView extends StatelessWidget {
                     Icons.keyboard_arrow_right_rounded,
                     color: ColorTheme.primaryColor,
                   ),
+                  onTap: () => context.pushNamed(AppSettingsPage.route),
                 ),
                 ListTile(
                   leading: Icon(
@@ -111,6 +121,7 @@ class AccountView extends StatelessWidget {
                     Icons.keyboard_arrow_right_rounded,
                     color: ColorTheme.primaryColor,
                   ),
+                  onTap: () => context.pushNamed(HelpCenterPage.route),
                 ),
                 const SizedBox(height: 80),
                 ListTile(
@@ -123,6 +134,28 @@ class AccountView extends StatelessWidget {
                     Icons.keyboard_arrow_right_rounded,
                     color: ColorTheme.primaryColor,
                   ),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: const Text("Logout"),
+                            content:
+                                const Text("Are you sure you want to logout?"),
+                            actions: [
+                              PrimaryButton(
+                                basic: true,
+                                onPressed: () => Navigator.pop(context),
+                                label: "Cancel",
+                              ),
+                              PrimaryButton(
+                                onPressed: () => Navigator.pop(context),
+                                label: "Logout",
+                              ),
+                            ],
+                          );
+                        });
+                  },
                 ),
               ],
             ),

@@ -4,6 +4,9 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
+import 'package:pocofino/features/account/view/app_settings_page.dart';
+import 'package:pocofino/features/account/view/edit_account_page.dart';
+import 'package:pocofino/features/account/view/help_center_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
 import 'package:pocofino/features/admin/features/home/admin_home_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
@@ -16,6 +19,8 @@ import 'package:pocofino/features/order/view/location_page.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
 import 'package:pocofino/features/order/view/pick_up_time_page.dart';
 import 'package:pocofino/features/product/view/product_page.dart';
+import 'package:pocofino/features/wallet/view/payment_page.dart';
+import 'package:pocofino/features/wallet/view/top_up_page.dart';
 import 'package:pocofino/features/wallet/view/wallet_page.dart';
 import 'package:pocofino/layout/home_page.dart';
 import 'package:product_repository/product_repository.dart';
@@ -81,6 +86,23 @@ class AppRouter {
             path: "wallet",
             name: WalletPage.route,
             builder: (context, state) => const WalletPage(),
+            routes: [
+              GoRoute(
+                path: "top_up",
+                name: TopUpPage.route,
+                builder: (context, state) => TopUpPage(
+                  walletBloc: (state.extra as Map)["walletBloc"],
+                ),
+              ),
+              GoRoute(
+                path: "payment",
+                name: PaymentPage.route,
+                builder: (context, state) => PaymentPage(
+                  walletBloc: (state.extra as Map)["walletBloc"],
+                  amount: (state.extra as Map)["amount"],
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: "cart",
@@ -112,12 +134,30 @@ class AppRouter {
             builder: (context, state) => OrderPage(
               products: (state.extra as Map)["products"]!,
               orderBloc: (state.extra as Map)["orderBloc"],
+              cartBloc: (state.extra as Map)["cartBloc"],
             ),
           ),
           GoRoute(
             path: "account",
             name: AccountPage.route,
             builder: (context, state) => const AccountPage(),
+            routes: [
+              GoRoute(
+                path: "edit",
+                name: EditAccountPage.route,
+                builder: (context, state) => const EditAccountPage(),
+              ),
+              GoRoute(
+                path: "app_settings",
+                name: AppSettingsPage.route,
+                builder: (context, state) => const AppSettingsPage(),
+              ),
+              GoRoute(
+                path: "help_center",
+                name: HelpCenterPage.route,
+                builder: (context, state) => const HelpCenterPage(),
+              ),
+            ],
           ),
 
           /// [Admin]

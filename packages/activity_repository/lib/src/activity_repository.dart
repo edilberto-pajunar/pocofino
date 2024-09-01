@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:product_repository/product_repository.dart';
 
 class ActivityRepository {
+
   Future<List<Order>> getActivities(String token, String status) async {
     try {
       final uri = Uri.http(ApiRepository.baseUrl, "api/orders", {

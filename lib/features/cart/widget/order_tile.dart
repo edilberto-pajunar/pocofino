@@ -19,11 +19,11 @@ class OrderTile extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     return Row(
       children: [
-        Checkbox(
-          value: false,
-          onChanged: (val) {},
-          visualDensity: VisualDensity.compact,
-        ),
+        // Checkbox(
+        //   value: false,
+        //   onChanged: (val) {},
+        //   visualDensity: VisualDensity.compact,
+        // ),
         Image.network(
           "https://i.pinimg.com/564x/50/f1/7c/50f17c380525acf16c5ad8df185b1554.jpg",
           height: 70,
