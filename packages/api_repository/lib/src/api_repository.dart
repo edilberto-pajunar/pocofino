@@ -12,6 +12,23 @@ class ApiRepository {
   static Uri uri(baseUrl) => Uri.parse("http://$baseUrl");
   static String baseUrl = "10.0.2.2:8000";
 
+  static String urlWithParams(String endpoint, Map<String, dynamic>? params) {
+    endpoint = "$endpoint?";
+    if (params == null) {
+      return endpoint;
+    }
+    params.forEach((key, value) {
+      if (value is List) {
+        for (var category in value) {
+          endpoint += "$key=$category&";
+        }
+      } else {
+        endpoint += "$key=$value&";
+      }
+    });
+    return endpoint;
+  }
+
   static headers() async {
     return {
       HttpHeaders.acceptHeader: "application/json",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';

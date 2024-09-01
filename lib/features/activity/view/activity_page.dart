@@ -2,7 +2,7 @@ import 'package:activity_repository/activity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/activity/bloc/activity_bloc.dart';
 import 'package:pocofino/features/activity/view/activity_view.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';

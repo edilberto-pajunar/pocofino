@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/contact_page.dart';

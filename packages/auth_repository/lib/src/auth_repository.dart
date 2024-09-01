@@ -105,29 +105,24 @@ class AuthRepository {
   }
 
   // <--------------- ALL HTTP REQUESTS ---------------->
-  Future<void> createAccount({
+  Future<String> createAccount({
     required String username,
     required String email,
     required String password,
   }) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/register");
-      final body = {
-        "username": username,
-        "email": email,
-        "password": password,
-      };
-
-      final response = await http.post(
-        uri,
-        body: body,
+      final req = RequestModel(
+        endpoint: "/api/register",
+        type: RequestType.post,
+        data: {
+          "username": username,
+          "email": email,
+          "password": password,
+        },
       );
 
-      if (response.statusCode == 200) {
-        log("Account created successfully!");
-      } else {
-        throw response.body;
-      }
+      final response = await ApiRepository().send(req);
+      return response["message"];
     } catch (e) {
       rethrow;
     }
@@ -138,25 +133,19 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/login");
-      final body = {
-        "email": email,
-        "password": password,
-      };
-
-      final response = await http.post(
-        uri,
-        body: body,
+      final request = RequestModel(
+        endpoint: "/api/login",
+        type: RequestType.post,
+        data: {
+          "email": email,
+          "password": password,
+        },
       );
 
-      if (response.statusCode == 200) {
-        final body = jsonDecode(response.body);
-        log("Account created successfully!");
-        return body["token"];
-      } else {
-        throw response.body;
-      }
+      final response = await ApiRepository().send(request);
+      return response["token"];
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
@@ -180,23 +169,14 @@ class AuthRepository {
     required String token,
   }) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/users/token-check");
-
-      final response = await http.get(
-        uri,
-        headers: {
-          "Authorization": "Bearer $token",
-          "Accept": "application/json",
-        },
+      final req = RequestModel(
+        endpoint: "/api/users/token-check",
+        type: RequestType.get,
+        data: {},
       );
 
-      if (response.statusCode == 200) {
-        final body = jsonDecode(response.body);
-
-        log(body["message"]);
-      } else {
-        throw response.body;
-      }
+      final response = await ApiRepository().send(req);
+      return response["message"];
     } catch (e) {
       rethrow;
     }

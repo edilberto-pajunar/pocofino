@@ -6,7 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/auth/bloc/auth_bloc.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';

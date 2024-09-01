@@ -34,24 +34,18 @@ class ProductRepository {
 
   Future<List<Product>> getProducts(String token) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/products");
-      final response = await http.get(
-        uri,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $token"
-        },
+      final req = RequestModel(
+        endpoint: "/api/products",
+        type: RequestType.get,
+        data: {},
       );
 
-      if (response.statusCode == 200) {
-        log("Response: ${response.body}");
+      final response = await ApiRepository().send(req);
 
-        final products = (jsonDecode(response.body)["data"] as List);
-        return products.map((product) {
-          return Product.fromJson(product);
-        }).toList();
-      }
-      throw Exception("Error getting products");
+      final products = response["data"] as List;
+      return products.map((product) {
+        return Product.fromJson(product);
+      }).toList();
     } catch (e) {
       rethrow;
     }
@@ -62,22 +56,18 @@ class ProductRepository {
     String token,
   ) async {
     try {
-      final uri =
-          Uri.http(ApiRepository.baseUrl, "/api/products/categories/$category");
-      final response = await http.get(uri, headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $token",
-      });
+      final req = RequestModel(
+        endpoint: "/api/products/categories/$category",
+        type: RequestType.get,
+        data: {},
+      );
 
-      if (response.statusCode == 200) {
-        log("Response: ${response.body}");
+      final response = await ApiRepository().send(req);
 
-        final products = (jsonDecode(response.body)["data"] as List);
-        return products.map((product) {
-          return Product.fromJson(product);
-        }).toList();
-      }
-      throw Exception("Error getting products");
+      final products = response["data"] as List;
+      return products.map((product) {
+        return Product.fromJson(product);
+      }).toList();
     } catch (e) {
       rethrow;
     }
@@ -88,32 +78,23 @@ class ProductRepository {
     String token,
   ) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/orders/add");
-
-      final body = {
-        "items": products.map((product) {
-          return {
-            "product_id": product.id,
-            "quantity": product.quantity,
-          };
-        }).toList(),
-      };
-
-      final response = await http.post(
-        uri,
-        body: jsonEncode(body),
-        headers: {
-          "Authorization": "Bearer $token",
-          "Content-Type": "application/json",
+      final req = RequestModel(
+        endpoint: "/api/orders/add",
+        type: RequestType.post,
+        data: {
+          "items": products.map((product) {
+            return {
+              "product_id": product.id,
+              "quantity": product.quantity,
+            };
+          }).toList(),
         },
       );
 
-      if (response.statusCode == 200) {
-        log("Response: ${response.body}");
-        final message = jsonDecode(response.body)["message"];
-        return message;
-      }
-      throw Exception(" Error adding orders: ${response.body}");
+      final response = await ApiRepository().send(req);
+
+      final message = response["message"];
+      return message;
     } catch (e) {
       rethrow;
     }
@@ -121,24 +102,17 @@ class ProductRepository {
 
   Future<List<Order>> getOrders(String token) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/orders");
-      final response = await http.get(
-        uri,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $token"
-        },
+      final req = RequestModel(
+        endpoint: "/api/orders",
+        type: RequestType.get,
+        data: {},
       );
 
-      if (response.statusCode == 200) {
-        log("Response: ${response.body}");
-
-        final orders = (jsonDecode(response.body)["data"] as List);
-        return orders.map((order) {
-          return Order.fromJson(order);
-        }).toList();
-      }
-      throw Exception("Error getting orders: ${response.body}");
+      final response = await ApiRepository().send(req);
+      final orders = response["data"] as List;
+      return orders.map((order) {
+        return Order.fromJson(order);
+      }).toList();
     } catch (e) {
       rethrow;
     }
@@ -146,26 +120,18 @@ class ProductRepository {
 
   Future<String> generateQR(String token, String amount) async {
     try {
-      final uri = Uri.http(ApiRepository.baseUrl, "/api/payment/generate_qr");
-      final response = await http.post(
-        uri,
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer $token"
-        },
-        body: {
+      final req = RequestModel(
+        endpoint: "/api/payment/generate_qr",
+        type: RequestType.post,
+        data: {
           "amount": amount,
         },
       );
 
-      if (response.statusCode == 200) {
-        log("Response: ${response.body}");
+      final response = await ApiRepository().send(req);
 
-        final qrCode =
-            (jsonDecode(response.body)["data"]["redirectUrl"] as String);
-        return qrCode;
-      }
-      throw Exception("Error fetching qr code: ${response.body}");
+      final qrCode = (response["data"]["redirectUrl"] as String);
+      return qrCode;
     } catch (e) {
       rethrow;
     }

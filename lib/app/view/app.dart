@@ -7,7 +7,7 @@ import 'package:location_repository/location_repository.dart';
 import 'package:payment_repository/payment_repository.dart';
 import 'package:pocofino/app/app_router.dart';
 import 'package:pocofino/app/view/app_view.dart';
-import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:product_repository/product_repository.dart';
 
 class App extends StatefulWidget {

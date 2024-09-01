@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pocofino/app/view/bloc/app_bloc.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 import 'package:pocofino/features/menu/view/menu_view.dart';
 import 'package:product_repository/product_repository.dart';
