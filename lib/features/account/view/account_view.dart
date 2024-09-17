@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/account/view/app_settings_page.dart';
 import 'package:pocofino/features/account/view/edit_account_page.dart';
 import 'package:pocofino/features/account/view/help_center_page.dart';
@@ -95,6 +97,11 @@ class AccountView extends StatelessWidget {
               ),
             ],
           ),
+          const Divider(
+            color: Color(0xfff0f0f0),
+            thickness: 8.0,
+            height: 48.0,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
@@ -149,7 +156,9 @@ class AccountView extends StatelessWidget {
                                 label: "Cancel",
                               ),
                               PrimaryButton(
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => context
+                                  ..read<AppBloc>().add(AppLogoutRequested())
+                                  ..pop(),
                                 label: "Logout",
                               ),
                             ],

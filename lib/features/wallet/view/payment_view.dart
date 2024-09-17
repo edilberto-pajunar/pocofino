@@ -1,15 +1,20 @@
+import 'package:activity_repository/activity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
+import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentView extends StatefulWidget {
   final double amount;
+  final PaymentType paymentType;
 
   const PaymentView({
     super.key,
     required this.amount,
+    required this.paymentType,
   });
 
   @override
@@ -34,9 +39,24 @@ class _PaymentViewState extends State<PaymentView> {
           onNavigationRequest: (request) {
             print("Navigation URL: ${request.url}");
             if (request.url.contains("success")) {
-              context
-                  .read<WalletBloc>()
-                  .add(const WalletPaymentStatusUpdated(PaymentStatus.success));
+              if (widget.paymentType == PaymentType.topUp) {
+                context
+                  ..read<WalletBloc>()
+                      .add(WalletPaymentAddBalanceRequested(widget.amount))
+                  ..read<WalletBloc>().add(WalletInitRequested())
+                  ..pop()
+                  ..pop();
+              }
+
+              if (widget.paymentType == PaymentType.payment) {
+                context
+                  ..read<WalletBloc>().add(WalletOrderPaymentRequested(
+                    widget.amount,
+                    context.read<CartBloc>().state.products,
+                  ))
+                  ..read<WalletBloc>().add(WalletInitRequested())
+                  ..pop();
+              }
             } else if (request.url.contains("cancel")) {
               context.read<WalletBloc>().add(
                   const WalletPaymentStatusUpdated(PaymentStatus.cancelled));
@@ -58,26 +78,25 @@ class _PaymentViewState extends State<PaymentView> {
     return Scaffold(
       appBar: AppBar(),
       body: BlocConsumer<WalletBloc, WalletState>(
+        listenWhen: (prev, curr) => prev.paymentStatus != curr.paymentStatus,
         listener: (context, state) {
           if (state.paymentStatus == PaymentStatus.success) {
-            context
-              ..read<WalletBloc>()
-                  .add(WalletPaymentAddBalanceRequested(widget.amount))
-              ..pop()
-              ..pop();
-          }
-
-          if (state.paymentStatus == PaymentStatus.cancelled) {
-            context.pop();
+            if (widget.paymentType == PaymentType.payment) {
+              context.read<CartBloc>().add(CartInitRequested());
+            }
           }
         },
         builder: (context, state) {
-          if (state.paymentStatus == PaymentStatus.loading) {}
+          return BlocBuilder<WalletBloc, WalletState>(
+            builder: (context, state) {
+              if (state.paymentStatus == PaymentStatus.loading) {}
 
-          if (state.paymentStatus == PaymentStatus.failed) {}
-          if (state.paymentStatus == PaymentStatus.cancelled) {}
-          return WebViewWidget(
-            controller: controller,
+              if (state.paymentStatus == PaymentStatus.failed) {}
+              if (state.paymentStatus == PaymentStatus.cancelled) {}
+              return WebViewWidget(
+                controller: controller,
+              );
+            },
           );
         },
       ),

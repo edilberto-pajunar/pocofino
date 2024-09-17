@@ -7,6 +7,12 @@ final class CartEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class CartInitRequested extends CartEvent {}
+
+final class CartInitProductsRequested extends CartEvent {
+  const CartInitProductsRequested();
+}
+
 final class CartProductAdded extends CartEvent {
   final Product product;
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
@@ -67,51 +68,63 @@ class _LocationViewState extends State<LocationView> {
               ),
             ),
           ),
-          BlocSelector<OrderBloc, OrderState, List<Store>>(
-            selector: (state) => state.stores,
-            builder: (context, stores) {
+          BlocBuilder<OrderBloc, OrderState>(
+            builder: (context, state) {
               return Expanded(
-                child: ListView.separated(
+                child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: stores.length,
-                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: state.stores.length,
                   itemBuilder: (context, index) {
-                    final store = stores[index];
+                    final store = state.stores[index];
 
                     final openingHour = store.formattedTime(store.openingHours);
                     final closingHour = store.formattedTime(store.closingHours);
 
-                    return Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            store.name,
-                            style: theme.textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(store.address),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return InkWell(
+                      onTap: () {
+                        context
+                          ..read<OrderBloc>().add(OrderStoreSubmitted(store))
+                          ..pop();
+                      },
+                      child: Container(
+                        color: state.store == store
+                            ? theme.colorScheme.primary
+                            : null,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                store.open24Hours!
-                                    ? "Open 24 Hours"
-                                    : "$openingHour - $closingHour",
-                                style: theme.textTheme.labelMedium!.copyWith(
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.normal,
+                                store.name,
+                                style: theme.textTheme.bodyLarge!.copyWith(
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                "11 miles",
-                                style: theme.textTheme.labelLarge,
-                              ),
+                              Text(store.address),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    store.open24Hours!
+                                        ? "Open 24 Hours"
+                                        : "$openingHour - $closingHour",
+                                    style:
+                                        theme.textTheme.labelMedium!.copyWith(
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  Text(
+                                    "11 miles",
+                                    style: theme.textTheme.labelLarge,
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
                     );
                   },
@@ -119,13 +132,13 @@ class _LocationViewState extends State<LocationView> {
               );
             },
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: PrimaryButton(
-              onPressed: () {},
-              label: "Confirm",
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(12.0),
+          //   child: PrimaryButton(
+          //     onPressed: () {},
+          //     label: "Confirm",
+          //   ),
+          // ),
         ],
       ),
     );

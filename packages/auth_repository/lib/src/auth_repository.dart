@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:api_repository/api_repository.dart';
 import 'package:auth_repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +5,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:database_api/database_api.dart';
-import 'package:http/http.dart' as http;
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -172,6 +168,21 @@ class AuthRepository {
       final req = RequestModel(
         endpoint: "/api/users/token-check",
         type: RequestType.get,
+        data: {},
+      );
+
+      final response = await ApiRepository().send(req);
+      return response["message"];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      final req = RequestModel(
+        endpoint: "/api/logout",
+        type: RequestType.post,
         data: {},
       );
 

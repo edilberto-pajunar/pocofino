@@ -16,6 +16,8 @@ dependencies:
   product_repository:
     path: ../product_repository
   http: ^1.2.2
+  build_runner: ^2.4.11
+  json_serializable: ^6.8.0
   
 
 dev_dependencies:
@@ -27,7 +29,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+# flutter:
 
   # To add assets to your package, add an assets section, like this:
   # assets:

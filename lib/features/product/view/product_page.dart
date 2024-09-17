@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/product/bloc/product_bloc.dart';
 import 'package:pocofino/features/product/view/product_view.dart';
@@ -33,9 +34,19 @@ class ProductPage extends StatelessWidget {
             )),
         ),
       ],
-      child: ProductView(
-        product: product,
-        isEdit: isEdit ?? false,
+      child: BlocListener<CartBloc, CartState>(
+        listenWhen: (prev, curr) => prev.status != curr.status,
+        listener: (context, state) {
+          if (state.status == CartStatus.success) {
+            context
+              ..read<CartBloc>().add(CartInitRequested())
+              ..pop();
+          }
+        },
+        child: ProductView(
+          product: product,
+          isEdit: isEdit ?? false,
+        ),
       ),
     );
   }

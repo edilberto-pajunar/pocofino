@@ -1,6 +1,3 @@
-import 'package:api_repository/api_repository.dart';
-import 'package:http/http.dart' as http;
-
 enum RequestType { get, post, delete, patch, put, update }
 
 class RequestModel {
@@ -10,8 +7,8 @@ class RequestModel {
   final Map data;
 
   RequestModel({
-    // this.url =  "10.0.2.2:8000",
-    this.url = "172.20.10.4:8000",
+    this.url = "10.0.2.2:8000",
+    // this.url = "172.20.10.4:8000",
     required this.endpoint,
     required this.type,
     required this.data,

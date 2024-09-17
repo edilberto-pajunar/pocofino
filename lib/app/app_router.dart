@@ -92,6 +92,8 @@ class AppRouter {
                 name: TopUpPage.route,
                 builder: (context, state) => TopUpPage(
                   walletBloc: (state.extra as Map)["walletBloc"],
+                  orderBloc: (state.extra as Map)["orderBloc"],
+                  cartBloc: (state.extra as Map)["cartBloc"],
                 ),
               ),
               GoRoute(
@@ -100,6 +102,9 @@ class AppRouter {
                 builder: (context, state) => PaymentPage(
                   walletBloc: (state.extra as Map)["walletBloc"],
                   amount: (state.extra as Map)["amount"],
+                  paymentType: (state.extra as Map)["paymentType"],
+                  orderBloc: (state.extra as Map)["orderBloc"],
+                  cartBloc: (state.extra as Map)["cartBloc"],
                 ),
               ),
             ],
@@ -112,7 +117,9 @@ class AppRouter {
               GoRoute(
                 path: "contact",
                 name: ContactPage.route,
-                builder: (context, state) => const ContactPage(),
+                builder: (context, state) => ContactPage(
+                  orderBloc: (state.extra as Map)["orderBloc"],
+                ),
               ),
               GoRoute(
                 path: "location",
@@ -135,6 +142,8 @@ class AppRouter {
               products: (state.extra as Map)["products"]!,
               orderBloc: (state.extra as Map)["orderBloc"],
               cartBloc: (state.extra as Map)["cartBloc"],
+              walletBloc: (state.extra as Map)["walletBloc"],
+              timerBloc: (state.extra as Map)["timerBloc"],
             ),
           ),
           GoRoute(

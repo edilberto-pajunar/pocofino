@@ -14,6 +14,7 @@ class Product extends Equatable {
   final bool popular;
   final int quantity;
   final Category category;
+  
   // final List<double> ounces;
 
   const Product({
@@ -32,10 +33,6 @@ class Product extends Equatable {
       _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
-
-  double totalPrice() {
-    return price * quantity;
-  }
 
   Product copyWith({
     int? id,
@@ -73,6 +70,16 @@ class Product extends Equatable {
         category,
         // ounces,
       ];
+
+  /// [totalAmount] is the sum of the price of all products
+  static double totalAmount(List<Product> products) {
+    return products.fold(0.0, (total, product) => total + product.totalPrice());
+  }
+
+  /// [totalPrice] is the price of the product multiplied by the quantity
+  double totalPrice() {
+    return price * quantity;
+  }
 
   // static final List<Product> products = [
   //   const Product(

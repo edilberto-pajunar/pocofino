@@ -22,3 +22,5 @@ final class AppFailed extends AppEvent {
 
   const AppFailed(this.error);
 }
+
+final class AppLogoutRequested extends AppEvent {}

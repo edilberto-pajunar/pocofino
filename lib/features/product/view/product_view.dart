@@ -36,19 +36,24 @@ class ProductView extends StatelessWidget {
                 return PrimaryButton(
                   onPressed: quantity == 0
                       ? null
-                      : isEdit
-                          ? () => context
-                            ..read<CartBloc>().add(CartProductEdited(
-                                product.copyWith(quantity: quantity)))
-                            ..pop()
-                          : () => context
-                            ..read<CartBloc>()
-                                .add(CartProductAdded(product.copyWith(
-                              quantity: quantity,
-                            )))
-                            ..pop(),
-                  label:
-                      "${isEdit ? "Save" : "Add"} to Cart | ${product.price} PHP",
+                      : () => context
+                        ..read<CartBloc>().add(CartProductAdded(
+                            product.copyWith(quantity: quantity)))
+                        ..pop,
+                  // : isEdit
+                  //     ? () => context
+                  //       ..read<CartBloc>().add(CartProductEdited(
+                  //           product.copyWith(quantity: quantity)))
+                  //       ..pop()
+                  //     : () => context
+                  //       ..read<CartBloc>()
+                  //           .add(CartProductAdded(product.copyWith(
+                  //         quantity: quantity,
+                  //       )))
+                  //       ..pop(),
+                  label: quantity == 0
+                      ? "Remove to Cart"
+                      : "${isEdit ? "Save" : "Add"} to Cart | ${product.price} PHP",
                 );
               },
             ),

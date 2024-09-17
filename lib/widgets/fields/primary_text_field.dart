@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pocofino/utils/strings/images.dart';
 
 class PrimaryTextField extends StatefulWidget {
   const PrimaryTextField({
@@ -36,7 +37,7 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           name: widget.name,
           maxLines: widget.maxLines,
-          obscureText: obscureText,
+          obscureText: widget.isPassword && obscureText,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.0),
@@ -47,11 +48,14 @@ class _PrimaryTextFieldState extends State<PrimaryTextField> {
             ),
             suffixIcon: !widget.isPassword
                 ? null
-                : IconButton(
-                    icon: const Icon(Icons.password),
-                    onPressed: () => setState(() {
+                : InkWell(
+                    borderRadius: BorderRadius.circular(45.0),
+                    onTap: () => setState(() {
                       obscureText = !obscureText;
                     }),
+                    child: Image.asset(
+                      obscureText ? PngImages.hidePass : PngImages.showPass,
+                    ),
                   ),
             hintText: widget.hintText,
           ),

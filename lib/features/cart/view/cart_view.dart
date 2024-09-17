@@ -4,10 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
+import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
+import 'package:pocofino/layout/bloc/timer_bloc.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/features/cart/widget/order_tile.dart';
 import 'package:pocofino/widgets/fields/primary_text_field.dart';
+import 'package:product_repository/product_repository.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -23,9 +26,8 @@ class CartView extends StatelessWidget {
       ),
       bottomSheet: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
-          final totalPrice = state.products
-              .fold(0.0, (sum, product) => sum + product.totalPrice())
-              .toStringAsFixed(2);
+          final totalPrice =
+              Product.totalAmount(state.products).toStringAsFixed(2);
 
           return BottomAppBar(
             height: 190,
@@ -65,6 +67,8 @@ class CartView extends StatelessWidget {
                               "products": state.products,
                               "orderBloc": context.read<OrderBloc>(),
                               "cartBloc": context.read<CartBloc>(),
+                              "walletBloc": context.read<WalletBloc>(),
+                              "timerBloc": context.read<TimerBloc>(),
                             }),
                     label: "Checkout",
                   ),

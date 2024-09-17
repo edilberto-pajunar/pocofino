@@ -7,7 +7,6 @@ import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/utils/strings/images.dart';
 import 'package:pocofino/features/menu/widget/category_tile.dart';
-import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/tiles/product_tile.dart';
 import 'package:product_repository/product_repository.dart';
 
@@ -55,7 +54,7 @@ class _MenuViewState extends State<MenuView> {
                         ),
                       )),
                       Text(
-                        "${addedProducts.fold(0.0, (previousValue, element) => previousValue + element.totalPrice())}",
+                        "PHP ${addedProducts.fold(0.0, (previousValue, element) => previousValue + element.totalPrice()).toStringAsFixed(2)}",
                         style: theme.textTheme.bodyMedium!.copyWith(
                           color: Colors.white,
                         ),

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -59,6 +60,22 @@ class _SignUpViewState extends State<SignUpView> {
                             FormBuilderValidators.required(),
                           ]),
                         ),
+                        // PrimaryTextField(
+                        //   label: "First Name",
+                        //   name: "firstName",
+                        //   hintText: "Juan",
+                        //   validator: FormBuilderValidators.compose([
+                        //     FormBuilderValidators.required(),
+                        //   ]),
+                        // ),
+                        // PrimaryTextField(
+                        //   label: "Last Name",
+                        //   name: "lastName",
+                        //   hintText: "Dela Cruz",
+                        //   validator: FormBuilderValidators.compose([
+                        //     FormBuilderValidators.required(),
+                        //   ]),
+                        // ),
                         PrimaryTextField(
                           label: "Email",
                           name: "email",
@@ -89,21 +106,53 @@ class _SignUpViewState extends State<SignUpView> {
                     builder: (context, state) {
                       return state.status == AuthStatus.loading
                           ? const CircularProgressIndicator()
-                          : PrimaryButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  final formValue = formKey.currentState?.value;
+                          : Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      text: "Already have an account? ",
+                                      style: theme.textTheme.bodyMedium,
+                                      children: [
+                                        TextSpan(
+                                          text: "Log in",
+                                          style: theme.textTheme.bodyMedium!
+                                              .copyWith(
+                                            color: ColorTheme.primaryColor,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () => context.goNamed(
+                                                    LoginPage.route,
+                                                    extra: {
+                                                      "authBloc": context
+                                                          .read<AuthBloc>(),
+                                                    }),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 12.0),
+                                PrimaryButton(
+                                  onPressed: () {
+                                    if (formKey.currentState!.validate()) {
+                                      final formValue =
+                                          formKey.currentState?.value;
 
-                                  context
-                                      .read<AuthBloc>()
-                                      .add(AuthCreateAccountRequested(
-                                        username: formValue?["username"],
-                                        email: formValue?["email"],
-                                        password: formValue?["password"],
-                                      ));
-                                }
-                              },
-                              label: "Sign Up",
+                                      context
+                                          .read<AuthBloc>()
+                                          .add(AuthCreateAccountRequested(
+                                            username: formValue?["username"],
+                                            email: formValue?["email"],
+                                            password: formValue?["password"],
+                                          ));
+                                    }
+                                  },
+                                  label: "Sign Up",
+                                ),
+                              ],
                             );
                     },
                   ),

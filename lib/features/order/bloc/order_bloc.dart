@@ -21,7 +21,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         super(const OrderState()) {
     on<OrderInitRequested>(_onInitRequested);
     on<OrderInitStoresRequested>(_onInitStoresRequested);
-    on<OrderPlaceRequested>(_onPlaceRequested);
+    on<OrderStoreSubmitted>(_onStoreSubmitted);
+    on<OrderContactInformationSubmitted>(_onContactInformationSubmitted);
+    on<OrderPlaceStatusUpdated>(_onStatusUpdated);
     on<OrderFailed>(_onOrderFailed);
   }
 
@@ -45,24 +47,34 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     }
   }
 
-  void _onPlaceRequested(
-    OrderPlaceRequested event,
+
+  void _onContactInformationSubmitted(
+    OrderContactInformationSubmitted event,
+    Emitter<OrderState> emit,
+  ) {
+    emit(state.copyWith(
+      mobileNumber: event.mobileNumber,
+      firstName: event.firstName,
+      lastName: event.lastName,
+    ));
+  }
+
+  void _onStoreSubmitted(
+    OrderStoreSubmitted event,
     Emitter<OrderState> emit,
   ) async {
-    try {
-      emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.loading));
+    emit(state.copyWith(
+      store: event.store,
+    ));
+  }
 
-      final paymentUrl =
-          await _productRepository.generateQR(_token, event.total.toString());
-      emit(state.copyWith(
-          paymentUrl: paymentUrl, orderPlaceStatus: OrderPlaceStatus.success));
-
-      // await _productRepository.placeOrder(event.products, _token);
-      // await _productRepository
-      //     .emit(state.copyWith(orderPlaceStatus: OrderPlaceStatus.success));
-    } catch (e) {
-      add(OrderFailed(e.toString()));
-    }
+  void _onStatusUpdated(
+    OrderPlaceStatusUpdated event,
+    Emitter<OrderState> emit,
+  ) async {
+    emit(state.copyWith(
+      orderPlaceStatus: event.status,
+    ));
   }
 
   void _onOrderFailed(

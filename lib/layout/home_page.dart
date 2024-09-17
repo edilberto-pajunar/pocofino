@@ -8,7 +8,9 @@ import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
+import 'package:pocofino/layout/bloc/timer_bloc.dart';
 import 'package:pocofino/layout/home_view.dart';
+import 'package:pocofino/layout/ticker.dart';
 import 'package:product_repository/product_repository.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +33,9 @@ class _HomePageState extends State<HomePage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => CartBloc(),
+          create: (context) => CartBloc(
+            productRepository: context.read<ProductRepository>(),
+          )..add(CartInitRequested()),
         ),
         BlocProvider(
           create: (context) => OrderBloc(
@@ -45,6 +49,16 @@ class _HomePageState extends State<HomePage> {
             productRepository: context.read<ProductRepository>(),
             token: token,
           )..add(MenuInitRequested()),
+        ),
+        BlocProvider(
+          create: (context) => WalletBloc(
+            paymentRepository: context.read<PaymentRepository>(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => TimerBloc(
+            ticker: const Ticker(),
+          ),
         ),
       ],
       child: const HomeView(),

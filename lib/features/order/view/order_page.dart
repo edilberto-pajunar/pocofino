@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/order_view.dart';
+import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
+import 'package:pocofino/layout/bloc/timer_bloc.dart';
 import 'package:product_repository/product_repository.dart';
 
 class OrderPage extends StatelessWidget {
@@ -12,12 +14,16 @@ class OrderPage extends StatelessWidget {
     required this.products,
     required this.orderBloc,
     required this.cartBloc,
+    required this.walletBloc,
+    required this.timerBloc,
     super.key,
   });
 
   final List<Product> products;
   final OrderBloc orderBloc;
   final CartBloc cartBloc;
+  final WalletBloc walletBloc;
+  final TimerBloc timerBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +34,12 @@ class OrderPage extends StatelessWidget {
         ),
         BlocProvider.value(
           value: cartBloc,
+        ),
+        BlocProvider.value(
+          value: walletBloc,
+        ),
+        BlocProvider.value(
+          value: timerBloc,
         ),
       ],
       child: BlocListener<OrderBloc, OrderState>(

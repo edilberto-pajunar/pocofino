@@ -10,6 +10,10 @@ environment:
 dependencies:
   api_repository:
     path: ../api_repository
+  activity_repository:
+    path: ../activity_repository
+  product_repository:
+    path: ../product_repository
   flutter:
     sdk: flutter
   
@@ -23,7 +27,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
+# flutter:
 
   # To add assets to your package, add an assets section, like this:
   # assets:

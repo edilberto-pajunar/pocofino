@@ -8,4 +8,6 @@ class PngImages {
   static String wallet = "assets/images/wallet.png";
   static String gcash = "assets/images/gcash.png";
   static String maya = "assets/images/maya.png";
+  static String showPass = "assets/images/show_pass.png";
+  static String hidePass = "assets/images/hide_pass.png";
 }

@@ -8,10 +8,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/auth/bloc/auth_bloc.dart';
-import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
-import 'package:pocofino/features/menu/view/menu_page.dart';
-import 'package:pocofino/layout/home_page.dart';
 import 'package:pocofino/utils/strings/color.dart';
 import 'package:pocofino/widgets/buttons/primary_button.dart';
 import 'package:pocofino/widgets/fields/primary_text_field.dart';
@@ -98,11 +95,13 @@ class _LoginViewState extends State<LoginView> {
                                           _formKey.currentState?.value;
 
                                       context
-                                          .read<AuthBloc>()
-                                          .add(AuthSignInRequested(
-                                            email: formValue?["email"],
-                                            password: formValue?["password"],
-                                          ));
+                                        ..read<AuthBloc>()
+                                            .add(AuthSignInRequested(
+                                          email: formValue?["email"],
+                                          password: formValue?["password"],
+                                        ))
+                                        ..read<AppBloc>()
+                                            .add(const AppHomeIndexChanged(0));
                                     }
                                   },
                                   label: "Sign In",

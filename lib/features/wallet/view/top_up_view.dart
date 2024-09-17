@@ -1,8 +1,10 @@
+import 'package:activity_repository/activity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
+import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
 import 'package:pocofino/features/wallet/view/payment_page.dart';
 import 'package:pocofino/utils/strings/images.dart';
@@ -39,15 +41,19 @@ class _TopUpViewState extends State<TopUpView> {
         key: formKey,
         onChanged: () => formKey.currentState?.save(),
         child: BlocConsumer<WalletBloc, WalletState>(
+          listenWhen: (prev, curr) => prev.status != curr.status,
           listener: (context, state) {
             if (state.status == WalletStatus.success) {
               final value = formKey.currentState?.value;
 
-              context.goNamed(
+              context.pushNamed(
                 PaymentPage.route,
                 extra: {
-                  "walletBloc": context.read<WalletBloc>(),
                   "amount": value?["amount"],
+                  "paymentType": PaymentType.topUp,
+                  "orderBloc": context.read<OrderBloc>(),
+                  "walletBloc": context.read<WalletBloc>(),
+                  "cartBloc": context.read<CartBloc>(),
                 },
               );
             }
@@ -117,6 +123,13 @@ class _TopUpViewState extends State<TopUpView> {
                       context
                           .read<WalletBloc>()
                           .add(WalletTopUpRequested(value?["amount"]));
+
+                      // context
+                      //   ..read<WalletBloc>().add(
+                      //       WalletPaymentAddBalanceRequested(
+                      //           value?["amount"] as double))
+                      //   ..read<WalletBloc>().add(WalletInitRequested())
+                      //   ..pop();
                     },
                     label: "TOP UP",
                   ),

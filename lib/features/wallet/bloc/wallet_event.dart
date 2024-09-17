@@ -9,6 +9,10 @@ class WalletEvent extends Equatable {
 
 final class WalletInitRequested extends WalletEvent {}
 
+final class WalletInitTransactionRequested extends WalletEvent {}
+
+final class WalletInitBalanceRequested extends WalletEvent {}
+
 final class WalletTopUpRequested extends WalletEvent {
   final double? amount;
 
@@ -25,4 +29,17 @@ final class WalletPaymentAddBalanceRequested extends WalletEvent {
   final double amount;
 
   const WalletPaymentAddBalanceRequested(this.amount);
+}
+
+final class WalletOrderPaymentRequested extends WalletEvent {
+  final List<Product> products;
+  final double total;
+
+  const WalletOrderPaymentRequested(this.total, this.products);
+}
+
+final class WalletFailed extends WalletEvent {
+  final String error;
+
+  const WalletFailed(this.error);
 }

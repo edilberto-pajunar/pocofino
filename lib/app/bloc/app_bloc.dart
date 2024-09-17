@@ -15,6 +15,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppInitRequested>(_onInitRequested);
     on<AppInitAuthRequested>(_onInitAuthRequested);
     on<AppHomeIndexChanged>(_onHomeIndexChanged);
+    on<AppLogoutRequested>(_onLogoutRequested);
     on<AppFailed>(_onAppFailed);
   }
 
@@ -52,13 +53,26 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ));
   }
 
+  void _onLogoutRequested(
+    AppLogoutRequested event,
+    Emitter<AppState> emit,
+  ) async {
+    await _authRepository.logout();
+    emit(state.copyWith(status: AppStatus.unathenticated));
+  }
+
   void _onAppFailed(
     AppFailed event,
     Emitter<AppState> emit,
-  ) {
-    emit(state.copyWith(
-      status: AppStatus.failed,
-      error: event.error,
-    ));
+  ) async {
+    try {
+      await _authRepository.logout();
+      emit(state.copyWith(
+        status: AppStatus.failed,
+        error: event.error,
+      ));
+    } catch (e) {
+      print(e);
+    }
   }
 }

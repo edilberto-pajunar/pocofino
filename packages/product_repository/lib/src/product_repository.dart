@@ -1,10 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:api_repository/api_repository.dart';
 import 'package:database_api/database_api.dart';
 import 'package:product_repository/product_repository.dart';
-import 'package:http/http.dart' as http;
 
 class ProductRepository {
   final DatabaseApi _databaseApi;
@@ -14,23 +10,6 @@ class ProductRepository {
   }) : _databaseApi = databaseApi;
 
   static String productPath = "products";
-
-  Stream<List<Product>> productStream() {
-    return _databaseApi.collectionStream(
-      path: productPath,
-      builder: (data, _) => Product.fromJson(data),
-    );
-  }
-
-  Future<void> setProducts(List<Product> products) async {
-    // await _databaseApi.setBatchDataForDocInList(
-    //   baseColPath: productPath,
-    //   docIdList: products.map((product) => product.id).toList(),
-    //   dataFromId: (id) =>
-    //       products.firstWhere((product) => product.id == id).toJson(),
-    //   merge: true,
-    // );
-  }
 
   Future<List<Product>> getProducts(String token) async {
     try {
@@ -118,20 +97,56 @@ class ProductRepository {
     }
   }
 
-  Future<String> generateQR(String token, String amount) async {
+  Future<String> addToCart(Product product) async {
     try {
       final req = RequestModel(
-        endpoint: "/api/payment/generate_qr",
+        endpoint: "/api/carts/addToCart",
         type: RequestType.post,
         data: {
-          "amount": amount,
+          "product_id": product.id,
+          "quantity": product.quantity,
         },
       );
 
       final response = await ApiRepository().send(req);
 
-      final qrCode = (response["data"]["redirectUrl"] as String);
-      return qrCode;
+      return response["message"];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Product>> getCartsProduct() async {
+    try {
+      final req = RequestModel(
+        endpoint: "/api/carts/",
+        type: RequestType.get,
+        data: {},
+      );
+
+      final response = await ApiRepository().send(req);
+      final cartProducts = response["data"] as List;
+      return cartProducts
+          .map((product) => Product.fromJson(product["product"]))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> removeFromCart(int productId) async {
+    try {
+      final req = RequestModel(
+        endpoint: "/api/carts/removeToCart",
+        type: RequestType.post,
+        data: {
+          "product_id": productId.toString(),
+        },
+      );
+
+      final response = await ApiRepository().send(req);
+      final message = response["message"];
+      return message;
     } catch (e) {
       rethrow;
     }
