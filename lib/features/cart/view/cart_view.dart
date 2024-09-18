@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/activity/bloc/activity_bloc.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/order/view/order_page.dart';
@@ -63,13 +64,15 @@ class CartView extends StatelessWidget {
                   PrimaryButton(
                     onPressed: state.products.isEmpty
                         ? null
-                        : () => context.pushNamed(OrderPage.route, extra: {
+                        : () {
+                            context.pushNamed(OrderPage.route, extra: {
                               "products": state.products,
                               "orderBloc": context.read<OrderBloc>(),
                               "cartBloc": context.read<CartBloc>(),
                               "walletBloc": context.read<WalletBloc>(),
                               "timerBloc": context.read<TimerBloc>(),
-                            }),
+                            });
+                          },
                     label: "Checkout",
                   ),
                 ],

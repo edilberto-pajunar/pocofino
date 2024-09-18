@@ -18,11 +18,8 @@ class ActivityPage extends StatelessWidget {
         BlocProvider.value(
           value: context.read<OrderBloc>(),
         ),
-        BlocProvider(
-          create: (context) => ActivityBloc(
-            activityRepository: context.read<ActivityRepository>(),
-            token: context.read<AppBloc>().state.token!,
-          )..add(ActivityInitRequested()),
+        BlocProvider.value(
+          value: context.read<ActivityBloc>()..add(ActivityInitRequested()),
         ),
       ],
       child: BlocListener<ActivityBloc, ActivityState>(

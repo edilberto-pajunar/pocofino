@@ -13,16 +13,10 @@ final class WalletInitTransactionRequested extends WalletEvent {}
 
 final class WalletInitBalanceRequested extends WalletEvent {}
 
-final class WalletTopUpRequested extends WalletEvent {
+final class WalletPaymentGenerated extends WalletEvent {
   final double? amount;
 
-  const WalletTopUpRequested(this.amount);
-}
-
-final class WalletPaymentStatusUpdated extends WalletEvent {
-  final PaymentStatus paymentStatus;
-
-  const WalletPaymentStatusUpdated(this.paymentStatus);
+  const WalletPaymentGenerated(this.amount);
 }
 
 final class WalletPaymentAddBalanceRequested extends WalletEvent {

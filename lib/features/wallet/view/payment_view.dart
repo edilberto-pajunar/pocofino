@@ -2,6 +2,7 @@ import 'package:activity_repository/activity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pocofino/features/activity/bloc/activity_bloc.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/order/bloc/order_bloc.dart';
 import 'package:pocofino/features/wallet/bloc/wallet_bloc.dart';
@@ -55,16 +56,11 @@ class _PaymentViewState extends State<PaymentView> {
                     context.read<CartBloc>().state.products,
                   ))
                   ..read<WalletBloc>().add(WalletInitRequested())
+                  ..read<CartBloc>().add(CartInitRequested())
                   ..pop();
               }
             } else if (request.url.contains("cancel")) {
-              context.read<WalletBloc>().add(
-                  const WalletPaymentStatusUpdated(PaymentStatus.cancelled));
-            } else if (request.url.contains("failed")) {
-              context
-                  .read<WalletBloc>()
-                  .add(const WalletPaymentStatusUpdated(PaymentStatus.failed));
-            }
+            } else if (request.url.contains("failed")) {}
 
             return NavigationDecision.navigate;
           },
@@ -78,14 +74,7 @@ class _PaymentViewState extends State<PaymentView> {
     return Scaffold(
       appBar: AppBar(),
       body: BlocConsumer<WalletBloc, WalletState>(
-        listenWhen: (prev, curr) => prev.paymentStatus != curr.paymentStatus,
-        listener: (context, state) {
-          if (state.paymentStatus == PaymentStatus.success) {
-            if (widget.paymentType == PaymentType.payment) {
-              context.read<CartBloc>().add(CartInitRequested());
-            }
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {

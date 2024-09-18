@@ -2,7 +2,7 @@ part of 'wallet_bloc.dart';
 
 enum WalletStatus { initial, loading, success, failure }
 
-enum PaymentStatus { initial, loading, success, failed, cancelled }
+enum PaymentStatus { initial, loading, success, failed, generated, cancelled }
 
 class WalletState extends Equatable {
   final WalletStatus status;
@@ -10,6 +10,7 @@ class WalletState extends Equatable {
   final PaymentStatus paymentStatus;
   final double amount;
   final List<Transaction> transactions;
+  final String error;
 
   const WalletState({
     this.status = WalletStatus.initial,
@@ -17,6 +18,7 @@ class WalletState extends Equatable {
     this.paymentStatus = PaymentStatus.initial,
     this.amount = 0.0,
     this.transactions = const [],
+    this.error = "",
   });
   WalletState copyWith({
     WalletStatus? status,
@@ -24,6 +26,7 @@ class WalletState extends Equatable {
     String? paymentUrl,
     double? amount,
     List<Transaction>? transactions,
+    String? error,
   }) {
     return WalletState(
       status: status ?? this.status,
@@ -31,6 +34,7 @@ class WalletState extends Equatable {
       paymentStatus: paymentStatus ?? this.paymentStatus,
       amount: amount ?? this.amount,
       transactions: transactions ?? this.transactions,
+      error: error ?? this.error,
     );
   }
 
@@ -41,5 +45,6 @@ class WalletState extends Equatable {
         paymentStatus,
         amount,
         transactions,
+        error,
       ];
 }

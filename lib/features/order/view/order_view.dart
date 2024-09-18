@@ -39,9 +39,9 @@ class _OrderViewState extends State<OrderView> {
         Product.totalAmount(context.read<CartBloc>().state.products);
 
     return BlocListener<WalletBloc, WalletState>(
-      listenWhen: (prev, curr) => curr.paymentUrl.isNotEmpty,
+      listenWhen: (prev, curr) => prev.paymentStatus != curr.paymentStatus,
       listener: (context, state) {
-        if (state.status == WalletStatus.success) {
+        if (state.paymentStatus == PaymentStatus.generated) {
           context.pushNamed(PaymentPage.route, extra: {
             "walletBloc": context.read<WalletBloc>(),
             "amount": totalPrice,
@@ -55,7 +55,7 @@ class _OrderViewState extends State<OrderView> {
         listenWhen: (prev, curr) => prev != curr && curr is TimerRunComplete,
         listener: (context, state) {
           if (state is TimerRunComplete) {
-            context.read<WalletBloc>().add(WalletTopUpRequested(totalPrice));
+            context.read<WalletBloc>().add(WalletPaymentGenerated(totalPrice));
           }
         },
         builder: (context, state) {

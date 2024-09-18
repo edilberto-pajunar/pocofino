@@ -33,10 +33,13 @@ class CompletedView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListView.builder(
+            ListView.separated(
               itemCount: state.orders.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const Divider(
+                height: 48.0,
+              ),
               itemBuilder: (context, index) {
                 final order = state.orders[index];
 

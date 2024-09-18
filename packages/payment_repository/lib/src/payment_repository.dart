@@ -42,13 +42,15 @@ class PaymentRepository {
 
   Future<List<Transaction>> getTransactions() async {
     final req = RequestModel(
-      endpoint: "/api/users/transactions",
+      endpoint: ApiRepository.urlWithParams("/api/users/transactions", {
+        "page": 1,
+      }),
       type: RequestType.get,
       data: {},
     );
 
     final response = await ApiRepository().send(req);
-    final transactions = (response["data"] as List);
+    final transactions = (response["data"]["data"] as List);
     return transactions
         .map((transaction) => Transaction.fromJson(transaction))
         .toList();
@@ -60,6 +62,12 @@ class PaymentRepository {
       type: RequestType.post,
       data: {
         "amount": amount,
+        "items": products.map((product) {
+          return {
+            "product_id": product.id,
+            "quantity": product.quantity,
+          };
+        }).toList(),
       },
     );
 

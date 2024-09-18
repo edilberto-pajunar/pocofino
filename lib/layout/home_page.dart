@@ -1,8 +1,10 @@
+import 'package:activity_repository/activity_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:payment_repository/payment_repository.dart';
 import 'package:pocofino/app/bloc/app_bloc.dart';
+import 'package:pocofino/features/activity/bloc/activity_bloc.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/cart/bloc/cart_bloc.dart';
 import 'package:pocofino/features/menu/bloc/menu_bloc.dart';
@@ -32,6 +34,12 @@ class _HomePageState extends State<HomePage> {
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => ActivityBloc(
+            activityRepository: context.read<ActivityRepository>(),
+            token: context.read<AppBloc>().state.token!,
+          ),
+        ),
         BlocProvider(
           create: (context) => CartBloc(
             productRepository: context.read<ProductRepository>(),

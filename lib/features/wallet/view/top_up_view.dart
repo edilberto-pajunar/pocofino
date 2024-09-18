@@ -43,7 +43,7 @@ class _TopUpViewState extends State<TopUpView> {
         child: BlocConsumer<WalletBloc, WalletState>(
           listenWhen: (prev, curr) => prev.status != curr.status,
           listener: (context, state) {
-            if (state.status == WalletStatus.success) {
+            if (state.paymentStatus == PaymentStatus.generated) {
               final value = formKey.currentState?.value;
 
               context.pushNamed(
@@ -122,7 +122,7 @@ class _TopUpViewState extends State<TopUpView> {
 
                       context
                           .read<WalletBloc>()
-                          .add(WalletTopUpRequested(value?["amount"]));
+                          .add(WalletPaymentGenerated(value?["amount"]));
 
                       // context
                       //   ..read<WalletBloc>().add(

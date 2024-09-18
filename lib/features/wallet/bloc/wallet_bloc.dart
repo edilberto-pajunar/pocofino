@@ -17,8 +17,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<WalletInitRequested>(_onInitRequested);
     on<WalletInitTransactionRequested>(_onInitTransactionRequested);
     on<WalletInitBalanceRequested>(_onInitBalanceRequested);
-    on<WalletTopUpRequested>(_onTopUpRequested);
-    on<WalletPaymentStatusUpdated>(_onPaymentStatusUpdated);
+    on<WalletPaymentGenerated>(_onPaymentGenerated);
     on<WalletPaymentAddBalanceRequested>(_onPaymentAddBalanceRequested);
     on<WalletOrderPaymentRequested>(_onOrderPaymentRequested);
     on<WalletFailed>(_onWalletFailed);
@@ -59,8 +58,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     }
   }
 
-  void _onTopUpRequested(
-    WalletTopUpRequested event,
+  void _onPaymentGenerated(
+    WalletPaymentGenerated event,
     Emitter<WalletState> emit,
   ) async {
     if (event.amount == null) return;
@@ -68,7 +67,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       emit(state.copyWith(status: WalletStatus.loading));
       final paymentUrl = await _paymentRepository.generateQR(event.amount!);
       emit(state.copyWith(
-        status: WalletStatus.success,
+        paymentStatus: PaymentStatus.generated,
         paymentUrl: paymentUrl,
       ));
     } catch (e) {
@@ -76,24 +75,15 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     }
   }
 
-  void _onPaymentStatusUpdated(
-    WalletPaymentStatusUpdated event,
-    Emitter<WalletState> emit,
-  ) {
-    emit(state.copyWith(paymentStatus: event.paymentStatus));
-  }
-
   void _onPaymentAddBalanceRequested(
     WalletPaymentAddBalanceRequested event,
     Emitter<WalletState> emit,
   ) async {
     try {
-      print("adding balance");
       emit(state.copyWith(paymentStatus: PaymentStatus.loading));
       await _paymentRepository.topUp(event.amount.toString());
       emit(state.copyWith(
         paymentStatus: PaymentStatus.success,
-        paymentUrl: "",
       ));
     } catch (e) {
       print("Error: $e");
@@ -111,10 +101,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         event.total.toString(),
         event.products,
       );
-
       emit(state.copyWith(
         paymentStatus: PaymentStatus.success,
-        paymentUrl: "",
       ));
     } catch (e) {
       add(WalletFailed(e.toString()));
@@ -125,6 +113,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     WalletFailed event,
     Emitter<WalletState> emit,
   ) {
-    emit(state.copyWith(paymentStatus: PaymentStatus.failed));
+    emit(state.copyWith(
+      paymentStatus: PaymentStatus.failed,
+      error: event.error,
+    ));
   }
 }
