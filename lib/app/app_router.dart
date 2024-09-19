@@ -8,7 +8,7 @@ import 'package:pocofino/features/account/view/app_settings_page.dart';
 import 'package:pocofino/features/account/view/edit_account_page.dart';
 import 'package:pocofino/features/account/view/help_center_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
-import 'package:pocofino/features/admin/features/home/admin_home_page.dart';
+import 'package:pocofino/features/admin/features/home/view/admin_home_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/auth/view/sign_up_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pocofino/app/bloc/app_bloc.dart';
 import 'package:pocofino/features/account/view/account_page.dart';
 import 'package:pocofino/features/activity/view/activity_page.dart';
+import 'package:pocofino/features/admin/features/home/view/admin_home_page.dart';
 import 'package:pocofino/features/auth/view/login_page.dart';
 import 'package:pocofino/features/cart/view/cart_page.dart';
 import 'package:pocofino/features/menu/view/menu_page.dart';
@@ -60,9 +61,14 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final status = context.watch<AppBloc>().state.status;
+    final isAdmin = context.watch<AppBloc>().state.currentUser?.isAdmin;
 
-    return status != AppStatus.authenticated
-        ? const LoginPage()
+    if (status != AppStatus.authenticated) {
+      return const LoginPage();
+    }
+
+    return isAdmin!
+        ? const AdminHomePage()
         : BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
               return PopScope(

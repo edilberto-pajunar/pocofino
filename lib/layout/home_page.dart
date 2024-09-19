@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
           create: (context) => OrderBloc(
             productRepository: context.read<ProductRepository>(),
             locationRepository: context.read<LocationRepository>(),
-            token: token,
           )..add(OrderInitRequested()),
         ),
         BlocProvider(

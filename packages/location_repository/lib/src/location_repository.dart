@@ -2,7 +2,7 @@ import 'package:api_repository/api_repository.dart';
 import 'package:location_repository/location_repository.dart';
 
 class LocationRepository {
-  Future<List<Store>> getAllStores(String token) async {
+  Future<List<Store>> getAllStores() async {
     try {
       final req = RequestModel(
         endpoint: "/api/stores",
