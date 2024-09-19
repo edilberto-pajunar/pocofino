@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,76 +128,76 @@ class _LoginViewState extends State<LoginView> {
                         ],
                       ),
                       const SizedBox(height: 30.0),
-                      BlocListener<AuthBloc, AuthState>(
-                        listener: (context, state) {
-                          if (state.status == AuthStatus.failure) {
-                            Fluttertoast.showToast(msg: "${state.error}");
-                          }
-                        },
-                        child: PrimaryButton(
-                          onPressed: () {
-                            context
-                                .read<AuthBloc>()
-                                .add(const AuthGoogleSignInAttempted());
-                          },
-                          label: "Sign in with Google",
-                        ),
-                      ),
-                      PrimaryButton(
-                        onPressed: () {},
-                        label: "Log In with Mobile Number",
-                        basic: true,
-                      ),
+                      // BlocListener<AuthBloc, AuthState>(
+                      //   listener: (context, state) {
+                      //     if (state.status == AuthStatus.failure) {
+                      //       Fluttertoast.showToast(msg: "${state.error}");
+                      //     }
+                      //   },
+                      //   child: PrimaryButton(
+                      //     onPressed: () {
+                      //       context
+                      //           .read<AuthBloc>()
+                      //           .add(const AuthGoogleSignInAttempted());
+                      //     },
+                      //     label: "Sign in with Google",
+                      //   ),
+                      // ),
+                      // PrimaryButton(
+                      //   onPressed: () {},
+                      //   label: "Log In with Mobile Number",
+                      //   basic: true,
+                      // ),
                       const SizedBox(height: 30.0),
-                      Visibility(
-                        visible: kIsWeb,
-                        child: FormBuilder(
-                          onChanged: () => _formKey.currentState!.save(),
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              const Row(
-                                children: [
-                                  Expanded(
-                                    child: Divider(),
-                                  ),
-                                  SizedBox(width: 4.0),
-                                  Text("or"),
-                                  SizedBox(width: 4.0),
-                                  Expanded(
-                                    child: Divider(),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12.0),
-                              const PrimaryTextField(
-                                name: "admin",
-                                label: "Admin",
-                                hintText: "Admin",
-                              ),
-                              const PrimaryTextField(
-                                name: "password",
-                                label: "Password",
-                                hintText: "Password",
-                                isPassword: true,
-                              ),
-                              PrimaryButton(
-                                onPressed: () {
-                                  final form = _formKey.currentState!.value;
-                                  context
-                                      .read<AuthBloc>()
-                                      .add(AuthAdminSignInAttempted(
-                                        form["admin"],
-                                        form["password"],
-                                      ));
-                                },
-                                label: "Login as Admin",
-                                basic: true,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Visibility(
+                      //   visible: kIsWeb,
+                      //   child: FormBuilder(
+                      //     onChanged: () => _formKey.currentState!.save(),
+                      //     key: _formKey,
+                      //     child: Column(
+                      //       children: [
+                      //         const Row(
+                      //           children: [
+                      //             Expanded(
+                      //               child: Divider(),
+                      //             ),
+                      //             SizedBox(width: 4.0),
+                      //             Text("or"),
+                      //             SizedBox(width: 4.0),
+                      //             Expanded(
+                      //               child: Divider(),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //         const SizedBox(height: 12.0),
+                      //         const PrimaryTextField(
+                      //           name: "admin",
+                      //           label: "Admin",
+                      //           hintText: "Admin",
+                      //         ),
+                      //         const PrimaryTextField(
+                      //           name: "password",
+                      //           label: "Password",
+                      //           hintText: "Password",
+                      //           isPassword: true,
+                      //         ),
+                      //         PrimaryButton(
+                      //           onPressed: () {
+                      //             final form = _formKey.currentState!.value;
+                      //             context
+                      //                 .read<AuthBloc>()
+                      //                 .add(AuthAdminSignInAttempted(
+                      //                   form["admin"],
+                      //                   form["password"],
+                      //                 ));
+                      //           },
+                      //           label: "Login as Admin",
+                      //           basic: true,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(

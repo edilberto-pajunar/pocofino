@@ -15,7 +15,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   })  : _authRepository = authRepository,
         super(const AuthState()) {
     on<AuthCreateAccountRequested>(_onCreateAccountRequested);
-    on<AuthGoogleSignInAttempted>(_onGoogleSignInAttempted);
     on<AuthAdminSignInAttempted>(_onAdminSignInAttempted);
     on<AuthSignInRequested>(_onSignInRequested);
     on<AuthStoreTokenRequested>(_onStoreTokenRequested);
@@ -56,25 +55,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onGoogleSignInAttempted(
-    AuthGoogleSignInAttempted event,
-    Emitter<AuthState> emit,
-  ) async {
-    try {
-      emit(state.copyWith(status: AuthStatus.loading));
-      final userCreds = await _authRepository.signInWithGoogle(
-        event.userId,
-      );
-      if (userCreds == null) {
-        return emit(state.copyWith(status: AuthStatus.cancelled));
-      }
-
-      emit(state.copyWith(status: AuthStatus.success));
-    } catch (e) {
-      add(AuthSignInFailed(e.toString()));
-      rethrow;
-    }
-  }
 
   Future<void> _onAdminSignInAttempted(
     AuthAdminSignInAttempted event,

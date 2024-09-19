@@ -29,12 +29,6 @@ final class AuthSignInRequested extends AuthEvent {
   });
 }
 
-final class AuthGoogleSignInAttempted extends AuthEvent {
-  final String? userId;
-
-  const AuthGoogleSignInAttempted({this.userId});
-}
-
 final class AuthAdminSignInAttempted extends AuthEvent {
   final String email;
   final String password;

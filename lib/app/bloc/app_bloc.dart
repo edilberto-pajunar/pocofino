@@ -1,6 +1,7 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -32,13 +33,20 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   ) async {
     final token = await _authRepository.readToken("bearer");
 
-    if (token == null) return;
-
     try {
+      if (token == null) {
+        emit(state.copyWith(status: AppStatus.unathenticated));
+        return;
+      }
+
       emit(state.copyWith(status: AppStatus.loggingIn));
 
-      await _authRepository.checkToken(token: token);
-      emit(state.copyWith(status: AppStatus.authenticated, token: token));
+      final currentUser = await _authRepository.getInfo(token: token);
+      emit(state.copyWith(
+        status: AppStatus.authenticated,
+        token: token,
+        currentUser: currentUser,
+      ));
     } catch (e) {
       emit(state.copyWith(status: AppStatus.unathenticated));
     }

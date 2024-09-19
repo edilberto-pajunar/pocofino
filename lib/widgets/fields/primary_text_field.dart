@@ -25,44 +25,49 @@ class PrimaryTextField extends StatefulWidget {
 }
 
 class _PrimaryTextFieldState extends State<PrimaryTextField> {
-  bool obscureText = false;
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(widget.label),
-        FormBuilderTextField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          name: widget.name,
-          maxLines: widget.maxLines,
-          obscureText: widget.isPassword && obscureText,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 12.0,
-            ),
-            suffixIcon: !widget.isPassword
-                ? null
-                : InkWell(
-                    borderRadius: BorderRadius.circular(45.0),
-                    onTap: () => setState(() {
-                      obscureText = !obscureText;
-                    }),
-                    child: Image.asset(
-                      obscureText ? PngImages.hidePass : PngImages.showPass,
+    final size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      width: size.width * 0.8,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.label),
+          FormBuilderTextField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            name: widget.name,
+            maxLines: widget.maxLines,
+            obscureText: widget.isPassword && obscureText,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 12.0,
+              ),
+              suffixIcon: !widget.isPassword
+                  ? null
+                  : InkWell(
+                      borderRadius: BorderRadius.circular(45.0),
+                      onTap: () => setState(() {
+                        obscureText = !obscureText;
+                      }),
+                      child: Image.asset(
+                        obscureText ? PngImages.hidePass : PngImages.showPass,
+                      ),
                     ),
-                  ),
-            hintText: widget.hintText,
+              hintText: widget.hintText,
+            ),
+            validator: widget.validator,
           ),
-          validator: widget.validator,
-        ),
-        const SizedBox(height: 12.0),
-      ],
+          const SizedBox(height: 12.0),
+        ],
+      ),
     );
   }
 }
